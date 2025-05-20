@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "antd";
+import { Badge, Menu } from "antd";
 import {
   MdOutlineSpa,
   MdDashboard,
@@ -12,7 +12,7 @@ import {
   MdOutlineHealthAndSafety,
 } from "react-icons/md";
 import { BiInjection } from "react-icons/bi";
-import { FaStethoscope, FaBath } from "react-icons/fa6";
+import { FaStethoscope, FaBath, FaSprayCanSparkles } from "react-icons/fa6";
 
 import { useNavigate } from "react-router";
 
@@ -33,8 +33,17 @@ const items = [
     label: "Appointments",
   },
   {
+    key: "notifications",
+    icon: <MdNotifications />,
+    label: (
+      <Badge count={5} size="small">
+        <div className="pr-3">Notification</div>
+      </Badge>
+    ),
+  },
+  {
     key: "grooming",
-    icon: <MdSpa />,
+    icon: <FaSprayCanSparkles />,
     label: "Grooming Services",
     children: [
       { key: "bath", label: "Bath & Cut", icon: <FaBath /> },
@@ -58,11 +67,6 @@ const items = [
     key: "boarding",
     icon: <MdHotel />,
     label: "Boarding",
-  },
-  {
-    key: "notifications",
-    icon: <MdNotifications />,
-    label: "Reminders",
   },
   {
     type: "divider",
@@ -120,7 +124,7 @@ const DashboardSideMenu = () => {
     <Menu
       onClick={onClick}
       mode="inline"
-      defaultSelectedKeys={["dashboard"]}
+      //defaultSelectedKeys={["dashboard"]}
       defaultOpenKeys={["grooming", "veterinary"]}
       items={items}
     />

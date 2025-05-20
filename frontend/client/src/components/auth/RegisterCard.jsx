@@ -11,7 +11,7 @@ const RegisterCard = () => {
   return (
     <Card
       title="🐾 Register New Account"
-      className="w-full shadow-lg rounded-xl"
+      className="w-full h-full shadow-lg rounded-xl"
     >
       <Form
         name="register"
@@ -19,6 +19,14 @@ const RegisterCard = () => {
         onFinish={onFinish}
         requiredMark={false}
       >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: "Please enter your username!" }]}
+        >
+          <Input placeholder="JohnDoe123" />
+        </Form.Item>
+
         <Form.Item
           label="Full Name"
           name="fullname"
@@ -47,14 +55,6 @@ const RegisterCard = () => {
           ]}
         >
           <Input placeholder="e.g., 0912345678" />
-        </Form.Item>
-
-        <Form.Item
-          label="Home Address"
-          name="address"
-          rules={[{ required: true, message: "Please enter your address!" }]}
-        >
-          <Input placeholder="123 Pet Street, Pet City" />
         </Form.Item>
 
         <Form.Item

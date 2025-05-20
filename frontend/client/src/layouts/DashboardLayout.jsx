@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router";
 import DashboardHeader from "../components/headers/DashboardHeader";
 import DashboardSideMenu from "../components/menus/DashboardSideMenu";
-
 export default function DashboardLayout() {
   return (
     <>
@@ -16,6 +15,7 @@ export default function DashboardLayout() {
           </div>
           <div className="w-5/6">
             <Outlet />
+            
           </div>
         </div>
       </div>
