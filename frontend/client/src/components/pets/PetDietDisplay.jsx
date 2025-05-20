@@ -53,7 +53,7 @@ export default function PetDietDisplay({ petId }) {
         <span className="text-xl logo">🍖 Pet diet</span>
         <DietPetFormModal />
       </div>
-      <div className=" h-[600px] overflow-y-auto">
+      <div className=" h-[600px] p-1 overflow-y-auto">
         <List
           itemLayout="vertical"
           dataSource={diets}

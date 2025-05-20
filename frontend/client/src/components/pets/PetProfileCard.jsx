@@ -20,10 +20,10 @@ export default function PetProfileCard({ pet }) {
           <img
             alt={pet.name}
             src={pet.photo_url}
-            className="h-48 object-cover w-full"
+            className="h-60 object-cover w-full"
           />
         ) : (
-          <div className="h-48 bg-gray-200">
+          <div className="h-60 bg-gray-200">
             <div className="h-full flex items-center justify-center">
               <FaPaw className="text-6xl text-gray-400" />
             </div>
