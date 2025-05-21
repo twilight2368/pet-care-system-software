@@ -24,43 +24,87 @@ import UserInfoCardPage from "./pages/user/UserInfoCardPage";
 import CenterWelcomePage from "./pages/center/CenterWelcomePage";
 import StaffCenterLayout from "./layouts/StaffCenterLayout";
 import VetCenterLayout from "./layouts/VetCenterLayout";
+import AdminCenterLayout from "./layouts/AdminCenterLayout";
+import StaffHomePage from "./pages/center/staff/StaffHomePage";
+import StaffTodayAppointmentPage from "./pages/center/staff/appointments/StaffTodayAppointmentPage";
+import StaffHistoryAppointmentPage from "./pages/center/staff/appointments/StaffHistoryAppointmentPage";
+import StaffAllAppointmentPage from "./pages/center/staff/appointments/StaffAllAppointmentPage";
+import ManageGroomingPage from "./pages/center/staff/groomings/ManageGroomingPage";
+import NewGroomingBooksPage from "./pages/center/staff/groomings/NewGroomingBooksPage";
+import PeriodGroomBookingPage from "./pages/center/staff/groomings/PeriodGroomBookingPage";
 function App() {
   return (
     <>
       <ToastContainer />
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/home/*" element={<DashboardLayout />}>
+
+        {/* User Dashboard Routes */}
+        <Route path="/home" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="appointments" element={<AppointmentAllPage />} />
           <Route path="notifications" element={<NotificationPage />} />
           <Route path="pets" element={<PetDetailPage />} />
           <Route path="pets/:id" element={<OnePetDetailPage />} />
           <Route path="add-pet" element={<AddPetPage />} />
-          <Route path="services/grooming/bath" element={<BathTrimPage />} />
-          <Route path="services/grooming/spa" element={<SpaPage />} />
-          <Route
-            path="services/vet/injection"
-            element={<VaccinationAppointmentFormPage />}
-          />
-          <Route
-            path="services/vet/health-check"
-            element={<CheckUpAppointmentFormPage />}
-          />
+
+          {/* Grooming Services */}
+          <Route path="services/grooming">
+            <Route path="bath" element={<BathTrimPage />} />
+            <Route path="spa" element={<SpaPage />} />
+          </Route>
+
+          {/* Vet Services */}
+          <Route path="services/vet">
+            <Route
+              path="injection"
+              element={<VaccinationAppointmentFormPage />}
+            />
+            <Route
+              path="health-check"
+              element={<CheckUpAppointmentFormPage />}
+            />
+          </Route>
+
+          {/* Boarding and Settings */}
           <Route path="services/boarding" element={<BoardingBookingPage />} />
           <Route path="settings" element={<UserInfoCardPage />} />
         </Route>
-        <Route path="/center/*">
+
+        {/* Center Routes */}
+        <Route path="/center" element={<Outlet />}>
           <Route index element={<CenterWelcomePage />} />
-          <Route path="vet/*" element={<VetCenterLayout />}>
+
+          {/* Vet Center */}
+          <Route path="vet" element={<VetCenterLayout />}>
             <Route index element={<>Content</>} />
           </Route>
-          <Route path="staff/*" />
-          <Route path="admin/*" />
+
+          {/* Staff Center */}
+          <Route path="staff" element={<StaffCenterLayout />}>
+            <Route index element={<StaffHomePage />} />
+            <Route path="appointments">
+              <Route path="today" element={<StaffTodayAppointmentPage />} />
+              <Route path="history" element={<StaffHistoryAppointmentPage />} />
+              <Route path="all" element={<StaffAllAppointmentPage />} />
+            </Route>
+            <Route path="grooming">
+              <Route path="manage" element={<ManageGroomingPage />} />
+              <Route path="new" element={<NewGroomingBooksPage />} />
+              <Route path="repeats" element={<PeriodGroomBookingPage />} />
+              <Route path="history" element={<></>} />
+            </Route>
+          </Route>
+
+          {/* Admin Center */}
+          <Route path="admin" element={<AdminCenterLayout />} />
         </Route>
-        <Route path="/*" element={<NotFoundPage />} />
+
+        {/* Not Found */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

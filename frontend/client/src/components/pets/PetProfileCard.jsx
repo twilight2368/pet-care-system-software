@@ -62,7 +62,7 @@ export default function PetProfileCard({ pet }) {
 
       <Divider className="my-3" />
 
-      <div className="text-sm p-3 bg-white/70 rounded-sm shadow-inner space-y-2">
+      <div className="text-sm p-3  space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <Text>
             <strong>Weight:</strong>{" "}

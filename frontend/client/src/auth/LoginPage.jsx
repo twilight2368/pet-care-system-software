@@ -1,9 +1,8 @@
-import DogImage from "../assets/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg";
+import DogImage from "../assets/vet-clinic-concept-happy-male-doctor-veterinarian-holding-cute-black-pug-dog-smiling-looking-lef.jpg";
 import LoginCard from "../components/auth/LoginCard";
 export default function LoginPage() {
   return (
     <>
-      {" "}
       <div className=" min-h-screen bg-black text-white">
         <div className="w-screen h-screen flex flex-row">
           <div className="w-2/3 h-full">
