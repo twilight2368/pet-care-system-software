@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, DatePicker, Button, Select } from "antd";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -12,7 +13,7 @@ export default function VetForm() {
     toast.success("Vaccination appointment scheduled!");
     form.resetFields();
   };
-  
+
   return (
     <>
       <Form
@@ -43,7 +44,21 @@ export default function VetForm() {
             { required: true, message: "Please choose appointment time" },
           ]}
         >
-          <DatePicker showTime className="w-full" />
+          <DatePicker
+            showTime={{
+              format: "HH:mm",
+              defaultValue: dayjs("00:00", "HH:mm"),
+              showSecond: false,
+              hourStep: 1,
+              minuteStep: 5,
+              hideDisabledOptions: true, // This hides disabled options
+              disabledHours: () => [
+                ...Array(6).keys(), // Disable 0-6
+                ...Array.from({ length: 6 }, (_, i) => i + 18), // Disable 18-23
+              ],
+            }}
+            className="w-full"
+          />
         </Form.Item>
 
         <Form.Item name="notes" label="Notes (optional)">

@@ -113,9 +113,9 @@ export default function GroomingServiceRowDisplay({
             service_date: dayjs(grooming_service?.service_date),
             notes: grooming_service?.notes,
             notes_from_client: grooming_service?.notes_from_client,
-            is_recurring: grooming_service?.is_recurring,
             recurrence_pattern: grooming_service?.recurrence_pattern,
           }}
+          isDisabled={isDisabled}
         />
       </Modal>
     </>

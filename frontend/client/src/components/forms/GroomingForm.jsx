@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, DatePicker, Button, Switch, Select } from "antd";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 export default function GroomingForm() {
   const [form] = Form.useForm();
@@ -60,7 +61,23 @@ export default function GroomingForm() {
           label="Service Date & Time"
           rules={[{ required: true, message: "Please pick a date and time" }]}
         >
-          <DatePicker needConfirm showTime className="w-full" />
+          <DatePicker
+            needConfirm
+            showTime={{
+              format: "HH:mm",
+              defaultValue: dayjs("00:00", "HH:mm"),
+              showSecond: false,
+              hourStep: 1,
+              minuteStep: 5,
+              hideDisabledOptions: true, // This hides disabled options
+              disabledHours: () => [
+                ...Array(6).keys(), // Disable 0-6
+                ...Array.from({ length: 6 }, (_, i) => i + 18), // Disable 18-23
+              ],
+            }}
+            format="YYYY-MM-DD HH:mm"
+            className="w-full"
+          />
         </Form.Item>
 
         <Form.Item name="notes" label="Notes (Optional)">

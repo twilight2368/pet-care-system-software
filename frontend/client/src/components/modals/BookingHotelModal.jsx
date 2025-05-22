@@ -53,6 +53,14 @@ export default function BookingHotelModal() {
             </Select>
           </Form.Item>
 
+          <Form.Item
+            name="date_range"
+            label="Booking Dates"
+            rules={[{ required: true, message: "Please select dates" }]}
+          >
+            <RangePicker format="YYYY-MM-DD" />
+          </Form.Item>
+
           <Form.Item name="room_id" label="Room" rules={[{ required: true }]}>
             <Select placeholder="Select Room">
               {dummyRooms.map((room) => (
@@ -61,14 +69,6 @@ export default function BookingHotelModal() {
                 </Select.Option>
               ))}
             </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="date_range"
-            label="Booking Dates"
-            rules={[{ required: true, message: "Please select dates" }]}
-          >
-            <RangePicker format="YYYY-MM-DD" />
           </Form.Item>
 
           <Form.Item name="notes_from_client" label="Notes">

@@ -32,6 +32,8 @@ import StaffAllAppointmentPage from "./pages/center/staff/appointments/StaffAllA
 import ManageGroomingPage from "./pages/center/staff/groomings/ManageGroomingPage";
 import NewGroomingBooksPage from "./pages/center/staff/groomings/NewGroomingBooksPage";
 import PeriodGroomBookingPage from "./pages/center/staff/groomings/PeriodGroomBookingPage";
+import HistoryGroomingBookingPage from "./pages/center/staff/groomings/HistoryGroomingBookingPage";
+import RoomManagementPage from "./pages/center/staff/boarding/RoomManagementPage";
 function App() {
   return (
     <>
@@ -81,6 +83,7 @@ function App() {
           {/* Vet Center */}
           <Route path="vet" element={<VetCenterLayout />}>
             <Route index element={<>Content</>} />
+            <Route path="settings" element={<UserInfoCardPage />} />
           </Route>
 
           {/* Staff Center */}
@@ -95,12 +98,21 @@ function App() {
               <Route path="manage" element={<ManageGroomingPage />} />
               <Route path="new" element={<NewGroomingBooksPage />} />
               <Route path="repeats" element={<PeriodGroomBookingPage />} />
+              <Route path="history" element={<HistoryGroomingBookingPage />} />
+            </Route>
+            <Route path="boarding">
+              {" "}
+              <Route path="rooms" element={<RoomManagementPage />} />
+              <Route path="bookings" element={<></>} />
               <Route path="history" element={<></>} />
             </Route>
+            <Route path="settings" element={<UserInfoCardPage />} />
           </Route>
 
           {/* Admin Center */}
-          <Route path="admin" element={<AdminCenterLayout />} />
+          <Route path="admin" element={<AdminCenterLayout />}>
+            <Route path="settings" element={<UserInfoCardPage />} />
+          </Route>
         </Route>
 
         {/* Not Found */}

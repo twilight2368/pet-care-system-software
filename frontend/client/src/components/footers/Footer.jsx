@@ -3,7 +3,7 @@ import LogoImage from "../../assets/paw.png";
 
 export default function Footer() {
   return (
-    <div className="w-full h-24 flex items-center justify-center mt-10">
+    <div className="w-full h-12 flex items-center justify-center mt-10">
       <div className="flex items-center gap-4">
         <img
           src={LogoImage}

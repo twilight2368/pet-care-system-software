@@ -24,7 +24,6 @@ export default function ManageGroomingPage() {
           <GroomingServiceRowDisplay />
           <GroomingServiceRowDisplay />
         </div>
-        <div></div>
       </div>
     </div>
   );

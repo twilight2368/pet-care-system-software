@@ -12,6 +12,8 @@ import {
   ApartmentOutlined,
   BookOutlined,
 } from "@ant-design/icons";
+import { MdEventRepeat, MdFiberNew } from "react-icons/md";
+import Footer from "../../../components/footers/Footer";
 
 export default function StaffHomePage() {
   const navigate = useNavigate();
@@ -46,9 +48,14 @@ export default function StaffHomePage() {
           path: "/center/staff/grooming/manage",
         },
         {
-          label: "All Grooming Bookings",
-          icon: <BookOutlined />,
-          path: "/center/staff/grooming/all",
+          label: "New Grooming Bookings",
+          icon: <MdFiberNew />,
+          path: "/center/staff/grooming/new",
+        },
+        {
+          label: "Period Grooming Bookings",
+          icon: <MdEventRepeat />,
+          path: "/center/staff/grooming/repeats",
         },
         {
           label: "Grooming History",
@@ -90,7 +97,7 @@ export default function StaffHomePage() {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-screen overflow-y-auto">
       {sections.map((section, idx) => (
         <div key={idx} className="mb-6">
           <h2 className="text-xl font-semibold mb-4 logo text-blue-500">
@@ -110,6 +117,9 @@ export default function StaffHomePage() {
           </div>
         </div>
       ))}
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }
