@@ -4,7 +4,7 @@ import { UserOutlined, PlusOutlined } from "@ant-design/icons";
 import RenderPetCard from "../pets/RenderPetCard";
 import { FaPaw } from "react-icons/fa";
 import { useNavigate } from "react-router";
-
+import "../custom.css";
 const { Title, Text } = Typography;
 
 // Mock list of pets (replace with real data)
@@ -49,9 +49,14 @@ export default function MyPetBoardCard() {
         </Title>
         <div>
           {" "}
-          <Button type="primary" icon={<PlusOutlined />} size="small" onClick={()=>{
-            navigate("add-pet"); 
-          }}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            size="small"
+            onClick={() => {
+              navigate("add-pet");
+            }}
+          >
             Add Pet
           </Button>
         </div>
@@ -62,14 +67,12 @@ export default function MyPetBoardCard() {
         dots
         arrows
         effect="fade"
-        className=" rounded-xl overflow-hidden shadow-lg bg-gradient-to-r from-indigo-100 to-purple-100"
+        className=" rounded-xl overflow-hidden shadow-lg h-60"
       >
         {pets.map((pet) => {
           return (
             <>
-              <div className="h-60 px-6 pt-3">
-                <RenderPetCard pet={pet} />
-              </div>
+              <RenderPetCard pet={pet} />
             </>
           );
         })}

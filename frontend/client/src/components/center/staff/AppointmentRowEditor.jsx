@@ -65,7 +65,7 @@ export default function AppointmentRowEditor({
       {" "}
       <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-4 mb-4">
         {/* Main row with all appointment details */}
-        <div className="grid grid-cols-5 gap-0 pb-3">
+        <div className="grid grid-cols-5 gap-6 pb-0">
           {/* Pet Details */}
           <div className="space-y-1">
             <div className="flex flex-col">
@@ -83,6 +83,7 @@ export default function AppointmentRowEditor({
           {/* Appointment Type */}
           <div className="space-y-1">
             <Tag
+              bordered={false}
               color={
                 appointmentTypeColors[appointment.appointment_type] || "default"
               }
@@ -152,6 +153,7 @@ export default function AppointmentRowEditor({
                 <Tag
                   color={statusColors[status] || "default"}
                   className="text-sm px-3 py-1 rounded-full font-medium"
+                  bordered={false}
                 >
                   {status}
                 </Tag>

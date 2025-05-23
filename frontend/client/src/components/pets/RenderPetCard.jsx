@@ -6,11 +6,11 @@ const { Title, Text } = Typography;
 
 export default function RenderPetCard({ pet }) {
   return (
-    <div>
+    <div className="w-full h-full">
       <Card
         key={pet.pet_id}
         variant="borderless"
-        className=" rounded-none"
+        className="h-full w-full rounded-none"
         title={
           <div className="flex items-center gap-3">
             {pet.photo_url !== "" ? (

@@ -1,11 +1,13 @@
 import React from "react";
 import { Card, Table, Tag } from "antd";
 import dayjs from "dayjs";
+import { Link } from "react-router";
 
 const table_columns = [
   {
     title: "Room",
     dataIndex: "room_number",
+    key: "Room",
   },
   {
     title: "Pet",
@@ -59,6 +61,14 @@ const table_columns = [
       >
         {status}
       </Tag>
+    ),
+  },
+  {
+    title: "",
+    dataIndex: "booking_id",
+    key: "Booking Id",
+    render: (booking_id) => (
+      <Link to={"bookings/" + booking_id}>See details</Link>
     ),
   },
 ];

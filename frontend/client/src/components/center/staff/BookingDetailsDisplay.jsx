@@ -1,6 +1,7 @@
 import React from "react";
 import { Tag, Button } from "antd";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router";
 
 const statusColors = {
   Pending: "orange",
@@ -23,6 +24,8 @@ const Row = ({ label, value, isLast = false }) => (
 );
 
 export default function BookingDetailsDisplay({ booking, onDetailsClick }) {
+  const navigate = useNavigate();
+
   if (!booking) return null;
 
   const formatDateRange = (checkIn, checkOut) => {
@@ -103,7 +106,9 @@ export default function BookingDetailsDisplay({ booking, onDetailsClick }) {
             variant="link"
             size="small"
             className="h-fit px-3 text-xs font-medium"
-            onClick={() => onDetailsClick?.(booking)}
+            onClick={() => {
+              navigate("/center/staff/boarding/bookings/" + 123);
+            }}
           >
             View Details
           </Button>

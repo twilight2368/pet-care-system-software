@@ -34,6 +34,9 @@ import NewGroomingBooksPage from "./pages/center/staff/groomings/NewGroomingBook
 import PeriodGroomBookingPage from "./pages/center/staff/groomings/PeriodGroomBookingPage";
 import HistoryGroomingBookingPage from "./pages/center/staff/groomings/HistoryGroomingBookingPage";
 import RoomManagementPage from "./pages/center/staff/boarding/RoomManagementPage";
+import BookingManagementPage from "./pages/center/staff/boarding/BookingManagementPage";
+import BookingHistoryPage from "./pages/center/staff/boarding/BookingHistoryPage";
+import BookingDetailPage from "./pages/center/staff/boarding/BookingDetailPage";
 function App() {
   return (
     <>
@@ -103,8 +106,9 @@ function App() {
             <Route path="boarding">
               {" "}
               <Route path="rooms" element={<RoomManagementPage />} />
-              <Route path="bookings" element={<></>} />
-              <Route path="history" element={<></>} />
+              <Route path="bookings" element={<BookingManagementPage />} />
+              <Route path="bookings/:id" element={<BookingDetailPage />} />
+              <Route path="history" element={<BookingHistoryPage />} />
             </Route>
             <Route path="settings" element={<UserInfoCardPage />} />
           </Route>

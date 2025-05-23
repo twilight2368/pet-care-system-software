@@ -1,0 +1,30 @@
+/* Custom arrow color */
+.ant-carousel .slick-prev,
+.ant-carousel .slick-next {
+  color: black; /* Change this to your desired color */
+  z-index: 1;
+}
+
+/* Optional: change arrow background for visibility */
+.ant-carousel .slick-prev::before,
+.ant-carousel .slick-next::before {
+  color: black; /* Change arrow icon color */
+}
+
+/* Active dot */
+.ant-carousel .slick-dots li.slick-active button {
+  background: #1890ff; /* Ant Design primary color */
+  transform: scale(1.2); /* Make it slightly larger */
+}
+
+/* Hover on dots */
+.ant-carousel .slick-dots li:hover button {
+  background: #40a9ff;
+}
+/* Inactive dots */
+.ant-carousel .slick-dots li button {
+  background: black;
+
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
