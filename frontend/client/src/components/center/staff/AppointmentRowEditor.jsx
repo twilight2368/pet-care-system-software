@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Button, Typography, Tag } from "antd";
+import { Select, Button, Typography, Tag, Divider } from "antd";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 const { Option } = Select;
@@ -61,51 +61,59 @@ export default function AppointmentRowEditor({
     "Unknown";
 
   return (
-    <div className="flex flex-col justify-between w-full border-b border-gray-200 py-2">
-      {/* Main row with all appointment details */}
-      <div className="flex flex-wrap items-center w-full">
-        <div className="flex items-center w-full md:w-1/5 pr-2 py-1">
-          <div className="w-full">
-            <Text className="text-xs text-gray-500">Pet</Text>
-            <div className="font-medium">
-              {pet?.id || "000"} -{pet?.name || "Unknown Pet"}
+    <>
+      {" "}
+      <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-4 mb-4">
+        {/* Main row with all appointment details */}
+        <div className="grid grid-cols-5 gap-0 pb-3">
+          {/* Pet Details */}
+          <div className="space-y-1">
+            <div className="flex flex-col">
+              <div className="flex items-center space-x-2">
+                <div className="font-medium text-gray-800">
+                  {pet?.id || "000"} - {pet?.name || "Unknown Pet"}
+                </div>
+              </div>
+              <div className="text-xs text-gray-500 mt-1">
+                Owner: {pet?.owner?.full_name || "Unknown Owner"}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex items-center w-1/8 pr-2 py-1">
-          <div className="w-full">
-            <div className="font-medium">
-              <Tag
-                color={
-                  appointmentTypeColors[appointment.appointment_type] ||
-                  "default"
-                }
-              >
-                {appointment.appointment_type}
-              </Tag>
-            </div>
+          {/* Appointment Type */}
+          <div className="space-y-1">
+            <Tag
+              color={
+                appointmentTypeColors[appointment.appointment_type] || "default"
+              }
+              className="text-sm px-3 py-1 rounded-full font-medium"
+            >
+              {appointment.appointment_type}
+            </Tag>
           </div>
-        </div>
 
-        <div className="flex items-center w-1/4 pr-2 py-1">
-          <div className="w-full">
-            <Text className="text-xs text-gray-500">Date & Time</Text>
-            <div className="font-medium">
+          {/* Date & Time */}
+          <div className="space-y-1">
+            <div className="text-xs font-semibold text-gray-500">
+              Date & Time
+            </div>
+            <div className="font-medium text-gray-800">
               {dayjs(appointment.appointment_date).format("MMM D, YYYY h:mm A")}
             </div>
           </div>
-        </div>
 
-        <div className="flex items-center w-full md:w-1/5 pr-2 py-1">
-          <div className="w-full">
-            <Text className="text-xs  italic text-gray-500">Veterinarian</Text>
+          {/* Veterinarian */}
+          <div className="space-y-1">
+            <div className="text-xs font-semibold text-gray-500">
+              Veterinarian
+            </div>
             {editing ? (
               <Select
                 value={vetId}
                 onChange={setVetId}
                 className="w-full"
                 size="small"
+                style={{ borderRadius: "0.375rem" }}
               >
                 {vets.map((vet) => (
                   <Option key={vet.user_id} value={vet.user_id}>
@@ -114,91 +122,107 @@ export default function AppointmentRowEditor({
                 ))}
               </Select>
             ) : (
-              <div className="font-medium">{vetName}</div>
+              <div className="font-medium text-gray-800">{vetName}</div>
             )}
+          </div>
+
+          {/* Status & Actions */}
+          <div className="space-y-1">
+            <div className="space-y-1">
+              {editing ? (
+                <>
+                  <div className="text-xs font-semibold text-gray-500 ">
+                    Status
+                  </div>
+                  <Select
+                    value={status}
+                    onChange={setStatus}
+                    className="w-40"
+                    size="small"
+                    style={{ borderRadius: "0.375rem" }}
+                  >
+                    {statusOptions.map((s) => (
+                      <Option key={s} value={s}>
+                        {s}
+                      </Option>
+                    ))}
+                  </Select>
+                </>
+              ) : (
+                <Tag
+                  color={statusColors[status] || "default"}
+                  className="text-sm px-3 py-1 rounded-full font-medium"
+                >
+                  {status}
+                </Tag>
+              )}
+            </div>
+          </div>
+        </div>
+        <Divider />
+        {/* Notes section with improved styling */}
+
+        <div className="space-y-2">
+          {/* Staff Note */}
+          <div className="bg-gray-50 p-3 rounded-md">
+            <Text strong className="text-xs text-gray-600 block mb-1">
+              Staff Note:
+            </Text>
+            <span className="text-sm text-gray-700">
+              {appointment.notes || (
+                <span className="text-gray-400 italic">No staff note</span>
+              )}
+            </span>
+          </div>
+
+          {/* Client Note */}
+          <div className="bg-blue-50 p-3 rounded-md">
+            <Text strong className="text-xs text-gray-600 block mb-1">
+              Client Note:
+            </Text>
+            <span className="text-sm text-gray-700">
+              {appointment.notes_from_client || (
+                <span className="text-gray-400 italic">No client note</span>
+              )}
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center w-full md:w-1/5 py-1">
-          <div className="flex-grow">
-            {editing ? (
-              <>
-                {" "}
-                <Text className="text-xs italic text-gray-500">Status</Text>
-                <Select
-                  value={status}
-                  onChange={setStatus}
-                  className="w-full"
-                  size="small"
-                >
-                  {statusOptions.map((s) => (
-                    <Option key={s} value={s}>
-                      {s}
-                    </Option>
-                  ))}
-                </Select>
-              </>
-            ) : (
-              <Tag
-                color={statusColors[status] || "default"}
-                className="font-medium"
-              >
-                {status}
-              </Tag>
-            )}
-          </div>
-
-          <div className="ml-4 flex items-center">
-            {editing ? (
-              <>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    setEditing(false);
-                    onCancel();
-                  }}
-                  className="mr-2"
-                >
-                  Cancel
-                </Button>
-                <Button type="primary" size="small" onClick={handleSave}>
-                  Save
-                </Button>
-              </>
-            ) : (
+        {/* Button Editing and Save-Cancel */}
+        <div className="w-full p-6 pb-3 flex justify-end space-x-2">
+          {editing ? (
+            <>
               <Button
-                disabled={isEditable === false}
                 size="small"
-                onClick={() => setEditing(true)}
+                onClick={() => {
+                  setEditing(false);
+                  onCancel();
+                }}
+                className="hover:bg-gray-100 text-gray-600"
               >
-                Edit
+                Cancel
               </Button>
-            )}
-          </div>
+              <Button
+                type="primary"
+                size="small"
+                onClick={handleSave}
+                className="bg-blue-500 hover:bg-blue-600"
+              >
+                Save
+              </Button>
+            </>
+          ) : (
+            <Button
+              disabled={isEditable === false}
+              size="small"
+              onClick={() => setEditing(true)}
+              type="primary"
+            >
+              Edit
+            </Button>
+          )}
         </div>
       </div>
-
-      {/* Notes section (only show if there are notes) */}
-      {(appointment.notes || appointment.notes_from_client) && (
-        <div className="pl-0 mt-1 mb-1 text-xs text-gray-500 w-full">
-          {appointment.notes && (
-            <div className="mb-1">
-              <Text strong className="text-xs">
-                Note:
-              </Text>{" "}
-              {appointment.notes}
-            </div>
-          )}
-          {appointment.notes_from_client && (
-            <div>
-              <Text strong className="text-xs">
-                Client Note:
-              </Text>{" "}
-              {appointment.notes_from_client}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    </>
   );
 }

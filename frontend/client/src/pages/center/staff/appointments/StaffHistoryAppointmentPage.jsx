@@ -24,7 +24,7 @@ const vetList = [
 export default function StaffHistoryAppointmentPage() {
   return (
     <>
-      <div className="p-6">
+      <div className="w-full h-screen p-6 overflow-y-auto">
         <div className="logo mb-6 text-xl">Appointment history</div>
         <div className="flex flex-col gap-3 mb-6">
           <AppointmentRowEditor

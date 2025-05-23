@@ -1,7 +1,9 @@
-import { Button } from "antd";
+import { Button, Divider, Empty } from "antd";
 import React, { useState } from "react";
-
+import { Timeline } from "antd";
 import AddRoomModal from "../../../../components/modals/AddRoomModal";
+import BookingDetailsDisplay from "../../../../components/center/staff/BookingDetailsDisplay";
+import { BiCheckCircle } from "react-icons/bi";
 
 function generateRooms(count) {
   return Array.from({ length: count }, (_, i) => ({
@@ -26,7 +28,7 @@ export default function RoomManagementPage() {
       `}</style>
 
       <div className="h-screen w-full flex flex-row gap-1">
-        <div className="w-fit h-fit fixed bottom-3.5 right-3.5">
+        <div className="w-fit h-fit fixed bottom-3.5 right-8.5 z-[1000]">
           <AddRoomModal />
         </div>
         <div className="w-1/6 h-full overflow-y-scroll not_display_scroll border-r border-gray-200 bg-white">
@@ -52,12 +54,83 @@ export default function RoomManagementPage() {
           </div>
         </div>
 
-        <div className="flex-1 p-4">
-          {selectedRoomId
-            ? `Room ${
-                mockRooms.find((r) => r.room_id === selectedRoomId)?.room_number
-              } selected`
-            : "Select a room"}
+        <div className="flex-1 h-screen w-full p-4 overflow-y-auto">
+          {!false ? (
+            <>
+              <Timeline>
+                <Timeline.Item>
+                  <BookingDetailsDisplay
+                    booking={{
+                      booking_id: 1,
+                      pet_id: 101,
+                      owner_id: 201,
+                      room_id: 301,
+                      staff_id: 401,
+                      check_in_date: "2025-06-01",
+                      check_out_date: "2025-06-07",
+                      status: "Confirmed",
+                      pet: { name: "Bella" },
+                      owner: { name: "John Doe" },
+                      room: { room_number: 205 },
+                      staff: { name: "Sarah Lee" },
+                      // notes, notes_from_client, and images are excluded intentionally
+                    }}
+                  />
+                </Timeline.Item>
+                <Timeline.Item>
+                  <BookingDetailsDisplay
+                    booking={{
+                      booking_id: 1,
+                      pet_id: 101,
+                      owner_id: 201,
+                      room_id: 301,
+                      staff_id: 401,
+                      check_in_date: "2025-06-01",
+                      check_out_date: "2025-06-07",
+                      status: "Confirmed",
+                      pet: { name: "Bella" },
+                      owner: { name: "John Doe" },
+                      room: { room_number: 205 },
+                      staff: { name: "Sarah Lee" },
+                      // notes, notes_from_client, and images are excluded intentionally
+                    }}
+                  />
+                </Timeline.Item>
+                <Timeline.Item>
+                  <BookingDetailsDisplay
+                    booking={{
+                      booking_id: 1,
+                      pet_id: 101,
+                      owner_id: 201,
+                      room_id: 301,
+                      staff_id: 401,
+                      check_in_date: "2025-06-01",
+                      check_out_date: "2025-06-07",
+                      status: "Confirmed",
+                      pet: { name: "Bella" },
+                      owner: { name: "John Doe" },
+                      room: { room_number: 205 },
+                      staff: { name: "Sarah Lee" },
+                      // notes, notes_from_client, and images are excluded intentionally
+                    }}
+                  />
+                </Timeline.Item>
+              </Timeline>
+              <div className="pt-6 pb-12 ">
+                <Divider>
+                  <span className=" text-gray-400 text-sm logo">
+                    • End of Results •
+                  </span>
+                </Divider>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-full h-full flex justify-center items-center">
+                <Empty />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
