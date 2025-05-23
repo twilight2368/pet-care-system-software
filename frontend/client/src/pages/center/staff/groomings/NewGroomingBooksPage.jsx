@@ -3,7 +3,7 @@ import { TbMailSpark } from "react-icons/tb";
 import GroomingServiceRowDisplay from "../../../../components/center/staff/GroomingServiceRowDisplay";
 export default function NewGroomingBooksPage() {
   return (
-    <div className="w-full h-screen overflow-y-auto p-6">
+    <div className="w-full p-6">
       <div className="w-full flex flex-row gap-2 items-center logo text-2xl mb-6">
         <TbMailSpark />
         <span>New Grooming Bookings</span>

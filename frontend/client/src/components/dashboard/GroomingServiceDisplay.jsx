@@ -6,46 +6,95 @@ import { FaSprayCanSparkles } from "react-icons/fa6";
 
 export default function GroomingServiceDisplay() {
   return (
-    <>
-      <div className=" logo text-2xl mb-6 flex flex-row gap-2 items-center">
-        <FaSprayCanSparkles />
-        Grooming services
+    <div className="max-w-7xl mx-auto p-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-8 logo">
+        <div className="p-2 bg-pink-50 rounded-lg">
+          <FaSprayCanSparkles className="text-2xl text-pink-600" />
+        </div>
+        <h1 className="text-3xl font-bold text-gray-800">Grooming Services</h1>
       </div>
-      <div className="w-full flex flex-row gap-6.5">
-        <div className="w-1/2 grid grid-cols-1 gap-6">
-          <Link to="services/grooming/bath">
-            <div className="group relative w-full h-full px-6 py-4 overflow-hidden bg-white rounded-2xl shadow-md flex items-center gap-4 transition duration-300 border border-pink-300 shadow-pink-300 hover:border-pink-600">
-              {/* Background fill animation */}
-              <div className="absolute inset-0 bg-pink-300 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-2xl z-0" />
+
+      {/* Main Content */}
+      <div className="grid lg:grid-cols-2 gap-8 items-start">
+        {/* Services Section */}
+        <div className="grid gap-6">
+          {/* Bath & Cut Service */}
+          <Link to="services/grooming/bath" className="block h-full">
+            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-pink-50 to-pink-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-pink-200 hover:border-pink-400 hover:scale-105 hover:shadow-2xl hover:shadow-pink-200/50">
+              {/* Animated border glow */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-pink-400/20 to-pink-500/20 blur-sm" />
 
               {/* Content */}
-              <div className="relative z-10 flex items-center gap-4">
-                <FaBath className="text-2xl text-pink-700 group-hover:text-white transition duration-300" />
-                <span className="text-lg font-medium text-gray-800 group-hover:text-white logo transition duration-300">
+              <div className="relative z-10 flex items-center gap-4 w-full">
+                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <FaBath className="text-2xl text-pink-600 group-hover:text-pink-700 transition-colors duration-300" />
+                </div>
+                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
                   Bath & Cut
                 </span>
+                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <svg
+                    className="w-5 h-5 text-pink-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </Link>
 
-          {/* Pet Spa */}
-          <Link to="services/grooming/spa">
-            <div className="group relative w-full h-full px-6 py-4 overflow-hidden bg-white rounded-2xl shadow-md flex items-center gap-4 transition duration-300 border border-purple-300 shadow-purple-300 hover:border-purple-500">
-              <div className="absolute inset-0 bg-purple-300 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-2xl z-0" />
+          {/* Pet Spa Service */}
+          <Link to="services/grooming/spa" className="block h-full">
+            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-purple-200 hover:border-purple-400 hover:scale-105 hover:shadow-2xl hover:shadow-purple-200/50">
+              {/* Animated border glow */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-400/20 to-purple-500/20 blur-sm" />
 
-              <div className="relative z-10 flex items-center gap-4">
-                <FaSpa className="text-2xl text-purple-700 group-hover:text-white transition duration-300" />
-                <span className="text-lg font-medium text-gray-800 group-hover:text-white logo transition duration-300">
+              {/* Content */}
+              <div className="relative z-10 flex items-center gap-4 w-full">
+                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <FaSpa className="text-2xl text-purple-600 group-hover:text-purple-700 transition-colors duration-300" />
+                </div>
+                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
                   Pet Spa
                 </span>
+                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <svg
+                    className="w-5 h-5 text-purple-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </Link>
         </div>
-        <div className="w-1/2">
-          <img src={BannerImage} alt="" className="w-full h-auto rounded-md" />
+
+        {/* Image Section */}
+        <div className="relative">
+          <img
+            src={BannerImage}
+            alt="Pet grooming services banner"
+            className="w-full h-auto rounded-2xl"
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }

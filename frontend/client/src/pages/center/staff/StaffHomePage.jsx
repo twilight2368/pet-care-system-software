@@ -97,7 +97,7 @@ export default function StaffHomePage() {
   ];
 
   return (
-    <div className="p-6 h-screen overflow-y-auto">
+    <div className="p-6">
       {sections.map((section, idx) => (
         <div key={idx} className="mb-6">
           <h2 className="text-xl font-semibold mb-4 logo text-blue-500">

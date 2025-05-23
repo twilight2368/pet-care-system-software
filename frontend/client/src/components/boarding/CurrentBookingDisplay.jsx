@@ -19,8 +19,8 @@ export default function CurrentBookingDisplay({ bookings }) {
     <>
       <Carousel dots arrows fade className="w-full h-64">
         {bookings.map((booking, index) => (
-          <div key={index} className="p-4 h-60 w-full">
-            <div className=" h-full w-full bg-white rounded-xl shadow p-6">
+          <div key={index} className="p-0 px-6 h-60 w-full">
+            <div className=" h-full w-full bg-white  p-6">
               <div className="mb-2">
                 {" "}
                 <h2 className="text-lg font-semibold mb-2">

@@ -102,23 +102,23 @@ export default function BookingDetailPage() {
     );
 
   return (
-    <div className="h-screen overflow-y-auto p-6 space-y-0">
+    <div className="p-6 space-y-0">
       <div className="flex justify-between items-center">
         <Button onClick={() => navigate(-1)}>
-          🔙 <TbArrowBackUp />
+          <TbArrowBackUp />
         </Button>
         <Button type="primary" size="large" icon={<GrUpdate />}>
-          🔄 Update Booking
+          Update Booking
         </Button>
       </div>
 
       {/* Header */}
       <div className="flex items-center justify-between gap-6 p-6 mt-6 mb-6 shadow rounded-lg">
         <Title level={3} className=" text-gray-800">
-          📄 Booking #{booking.booking_id}
+          Booking #{booking.booking_id}
         </Title>
         <Tag color="volcano" className="text-base px-4 py-2 font-medium">
-          🛏️ Room #{booking.room?.room_number}
+          Room #{booking.room?.room_number}
         </Tag>
       </div>
 

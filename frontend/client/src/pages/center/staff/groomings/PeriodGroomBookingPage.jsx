@@ -7,7 +7,7 @@ import { BsCalendar2WeekFill, BsCalendar2MonthFill } from "react-icons/bs";
 export default function PeriodGroomBookingPage() {
   return (
     <>
-      <div className="w-full h-screen p-6 overflow-y-auto">
+      <div className="w-full p-6 ">
         <div className="w-full mb-6">
           <div className="w-full flex flex-row gap-2 items-center logo text-2xl mb-6">
             <BsCalendar2WeekFill />

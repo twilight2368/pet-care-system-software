@@ -10,7 +10,7 @@ export default function RenderPetCard({ pet }) {
       <Card
         key={pet.pet_id}
         variant="borderless"
-        className="h-full w-full rounded-none"
+        className="h-full w-full"
         title={
           <div className="flex items-center gap-3">
             {pet.photo_url !== "" ? (

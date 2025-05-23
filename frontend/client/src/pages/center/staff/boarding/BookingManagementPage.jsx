@@ -4,7 +4,7 @@ import { Divider } from "antd";
 
 export default function BookingManagementPage() {
   return (
-    <div className="w-full h-screen p-6 overflow-y-scroll">
+    <div className="w-full p-6">
       <div className=" logo text-2xl p-6 pt-0">📅 Manage Bookings</div>
       <div className="px-24 space-y-6">
         <BookingDisplayEditable

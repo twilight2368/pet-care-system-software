@@ -23,7 +23,7 @@ const vetList = [
 
 export default function StaffAllAppointmentPage() {
   return (
-    <div className="w-full h-screen p-6 overflow-y-auto">
+    <div className="w-full p-6 ">
       <div className="mb-18">
         <div className="logo mb-6 text-xl">Upcoming appointments</div>
         <div className="flex flex-col gap-3 mb-6">

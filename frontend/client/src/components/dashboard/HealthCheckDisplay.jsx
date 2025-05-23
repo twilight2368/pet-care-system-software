@@ -8,47 +8,97 @@ import { FaStethoscope } from "react-icons/fa";
 
 export default function HealthCheckDisplay() {
   return (
-    <>
-      <div className=" logo text-2xl mb-6 flex flex-row gap-2">
-        {" "}
-        <FaStethoscope /> Veterinary services
-      </div>
-      <div className="w-full flex flex-row gap-6.5">
-        <div className="w-1/2">
-          <img src={BannerImage} alt="" className="w-full h-auto rounded-md" />
+    <div className=" mx-auto p-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-8 logo">
+        <div className="p-2 bg-blue-50 rounded-lg">
+          <FaStethoscope className="text-2xl text-blue-600" />
         </div>
-        <div className="w-1/2 grid grid-cols-1 gap-6 ">
-          {/* Injection */}
-          <Link to="services/vet/injection">
-            <div className="group relative w-full h-full px-6 py-4 overflow-hidden bg-white rounded-2xl shadow-md flex items-center gap-4 transition duration-300 border border-blue-300 shadow-blue-300 hover:border-blue-500">
-              {/* Fill background animation */}
-              <div className="absolute inset-0 bg-blue-300 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-2xl z-0" />
+        <h1 className="text-3xl font-bold text-gray-800">
+          Veterinary Services
+        </h1>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid lg:grid-cols-2 gap-8 items-start">
+        {/* Image Section */}
+        <div className="relative flex justify-center items-center">
+          <img
+            src={BannerImage}
+            alt="Pet grooming services banner"
+            className="w-full h-auto rounded-2xl"
+          />
+        </div>
+
+        {/* Services Section */}
+        <div className="grid gap-6">
+          {/* Injection Service */}
+          <Link to="services/vet/injection" className="block h-full">
+            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-blue-200 hover:border-blue-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-200/50">
+              {/* Animated border glow */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-400/20 to-blue-500/20 blur-sm" />
 
               {/* Content */}
-              <div className="relative z-10 flex items-center gap-4">
-                <BiInjection className="text-2xl text-blue-700 group-hover:text-white transition duration-300" />
-                <span className="text-lg font-medium text-gray-800 group-hover:text-white logo transition duration-300">
-                  Injection
+              <div className="relative z-10 flex items-center gap-4 w-full">
+                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <BiInjection className="text-2xl text-blue-600 group-hover:text-blue-700 transition-colors duration-300" />
+                </div>
+                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                  Injection Services
                 </span>
+                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <svg
+                    className="w-5 h-5 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </Link>
 
-          {/* Health Check */}
-          <Link to="services/vet/health-check">
-            <div className="group relative w-full h-full px-6 py-4 overflow-hidden bg-white rounded-2xl shadow-md flex items-center gap-4 transition duration-300 border border-red-300 shadow-red-300 hover:border-red-500">
-              <div className="absolute inset-0 bg-red-300 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-2xl z-0" />
+          {/* Health Check Service */}
+          <Link to="services/vet/health-check" className="block h-full">
+            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-red-50 to-red-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-red-200 hover:border-red-400 hover:scale-105 hover:shadow-2xl hover:shadow-red-200/50">
+              {/* Animated border glow */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-red-400/20 to-red-500/20 blur-sm" />
 
-              <div className="relative z-10 flex items-center gap-4">
-                <MdOutlineHealthAndSafety className="text-2xl text-red-700 group-hover:text-white transition duration-300" />
-                <span className="text-lg font-medium text-gray-800 group-hover:text-white logo transition duration-300">
-                  Health Check
+              {/* Content */}
+              <div className="relative z-10 flex items-center gap-4 w-full">
+                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <MdOutlineHealthAndSafety className="text-2xl text-red-600 group-hover:text-red-700 transition-colors duration-300" />
+                </div>
+                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                  Health Checkup
                 </span>
+                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <svg
+                    className="w-5 h-5 text-red-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -43,10 +43,13 @@ export default function MyPetBoardCard() {
   return (
     <div className="w-full mx-auto h-full p-4 ">
       <div className="flex justify-between items-top mb-0">
-        <Title level={4} className="logo flex flex-row gap-2 items-center">
-          <FaPaw />
-          My Pets
-        </Title>
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6 logo">
+          <div className="p-2 bg-orange-800/25 rounded-lg">
+            <FaPaw className="text-xl text-orange-950" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">My Pets</h2>
+        </div>
         <div>
           {" "}
           <Button
@@ -62,13 +65,7 @@ export default function MyPetBoardCard() {
         </div>
       </div>
 
-      <Carousel
-        autoplay={false}
-        dots
-        arrows
-        effect="fade"
-        className=" rounded-xl overflow-hidden shadow-lg h-60"
-      >
+      <Carousel autoplay={false} dots arrows effect="fade" className="h-full">
         {pets.map((pet) => {
           return (
             <>

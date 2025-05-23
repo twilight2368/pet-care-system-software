@@ -11,10 +11,12 @@ export default function PetHotelIntro() {
   const navigate = useNavigate();
   return (
     <div>
-      {/* Title */}
-      <div className="logo text-2xl mb-0 flex flex-row gap-2 items-center">
-        <FaBed />
-        <span>Boarding Services</span>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6 logo">
+        <div className="p-2 bg-purple-50 rounded-lg">
+          <FaBed className="text-xl text-purple-600" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-800">Boarding Service</h2>
       </div>
 
       <div className="flex flex-row gap-2.5 items-end">
