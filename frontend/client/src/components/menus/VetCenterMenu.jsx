@@ -9,6 +9,7 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router";
+import { MdUpcoming } from "react-icons/md";
 
 export default function VetCenterMenu() {
   const navigate = useNavigate();
@@ -42,10 +43,10 @@ export default function VetCenterMenu() {
           Appointment History
         </Menu.Item>
         <Menu.Item
-          key="/center/vet/appointments/all"
-          icon={<AppstoreOutlined />}
+          key="/center/vet/appointments/upcoming"
+          icon={<MdUpcoming />}
         >
-          All Appointments
+          Upcoming Appointments
         </Menu.Item>
       </Menu.ItemGroup>
 

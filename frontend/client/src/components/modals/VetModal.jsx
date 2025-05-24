@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import VetForm from "../forms/VetForm";
 
-export default function VetModal() {
+export default function VetModal({ isVetMaking = false, pet_id = null }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -18,7 +18,7 @@ export default function VetModal() {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button variant="outlined" color="default" onClick={showModal}>
         Make a new appointment
       </Button>
       <Modal
@@ -29,7 +29,7 @@ export default function VetModal() {
         onCancel={handleCancel}
       >
         <div>
-          <VetForm />
+          <VetForm isVetMaking={isVetMaking} pet_id={pet_id} />
         </div>
       </Modal>
     </>

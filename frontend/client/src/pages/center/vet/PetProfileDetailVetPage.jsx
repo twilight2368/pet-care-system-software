@@ -1,20 +1,19 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router";
-import { Anchor, Button, Col, Row } from "antd";
-import "../layout.css";
-import PetDietDisplay from "../../components/pets/PetDietDisplay";
-import PetMedicalHistory from "../../components/pets/PetMedicalHistory";
-import EditPetModal from "../../components/modals/EditPetModal";
-import PetProfileCard from "../../components/pets/PetProfileCard";
+import PetDietDisplay from "../../../components/pets/PetDietDisplay";
+import PetMedicalHistory from "../../../components/pets/PetMedicalHistory";
+import EditPetModal from "../../../components/modals/EditPetModal";
+import PetProfileCard from "../../../components/pets/PetProfileCard";
+import EditPetPhysicInfoModal from "../../../components/center/vet/EditPetPhysicInfoModal";
+import { Button } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
-import Footer from "../../components/footers/Footer";
-const { Link } = Anchor;
 
-export default function OnePetDetailPage() {
+export default function PetProfileDetailVetPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   return (
-    <div className="p-6 w-full outlet-layout overflow-y-auto m-0">
+    <div className="p-6 w-full ">
       <div className="mb-6">
         <div className="w-full mb-6">
           <Button
@@ -50,6 +49,25 @@ export default function OnePetDetailPage() {
                 }}
                 onSave={(updatedPet) => console.log("Saved pet:", updatedPet)}
               />
+              <EditPetPhysicInfoModal
+                pet={{
+                  pet_id: 1,
+                  name: "Bella",
+                  age: 3,
+                  gender: "Female",
+                  breed: "Golden Retriever",
+                  color: "Golden",
+                  photo_url: "",
+                  weight_kg: 25.5,
+                  height_cm: 55.2,
+                  blood_type: "DEA1.1",
+                  spayed_neutered: true,
+                  microchipped: true,
+                  is_alert: true,
+                  health_notes:
+                    "Has mild skin allergies. Regular antihistamines recommended.",
+                }}
+              />
             </div>
           </div>
           <div className=" relative w-full">
@@ -78,11 +96,8 @@ export default function OnePetDetailPage() {
       <div className="w-full mb-12">
         <PetDietDisplay />
       </div>
-      <div className=" w-full mb-12">
-        <PetMedicalHistory />
-      </div>
-      <div className="w-full pb-12">
-        <Footer/>
+      <div className=" w-full">
+        <PetMedicalHistory isVetViewing={true} />
       </div>
     </div>
   );

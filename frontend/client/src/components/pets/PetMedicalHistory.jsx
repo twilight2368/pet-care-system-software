@@ -1,9 +1,13 @@
 import React from "react";
 import { Timeline, Card, Typography } from "antd";
+import MedicalRecordModal from "../center/vet/MedicalRecordModal";
 
 const { Text, Paragraph } = Typography;
 
-export default function PetMedicalHistoryTimeline({ petId }) {
+export default function PetMedicalHistoryTimeline({
+  petId,
+  isVetViewing = false,
+}) {
   // Sample mock data (replace with real data from backend)
   const medicalRecords = [
     {
@@ -29,7 +33,21 @@ export default function PetMedicalHistoryTimeline({ petId }) {
   ];
 
   return (
-    <Card title="🩺 Medical History" className="mb-6">
+    <Card
+      title={
+        isVetViewing ? (
+          <>
+            <div className="flex flex-row justify-between items-center">
+              <div>🩺 Medical History</div>
+              <MedicalRecordModal />
+            </div>
+          </>
+        ) : (
+          <>🩺 Medical History</>
+        )
+      }
+      className="mb-6"
+    >
       <Timeline className="my-6">
         {medicalRecords.map((record, index) => (
           <Timeline.Item key={index}>

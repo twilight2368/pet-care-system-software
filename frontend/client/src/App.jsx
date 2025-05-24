@@ -37,6 +37,12 @@ import RoomManagementPage from "./pages/center/staff/boarding/RoomManagementPage
 import BookingManagementPage from "./pages/center/staff/boarding/BookingManagementPage";
 import BookingHistoryPage from "./pages/center/staff/boarding/BookingHistoryPage";
 import BookingDetailPage from "./pages/center/staff/boarding/BookingDetailPage";
+import HomeVetPage from "./pages/center/vet/HomeVetPage";
+import TodayVetAppointmentPage from "./pages/center/vet/TodayVetAppointmentPage";
+import HistoryVetAppointment from "./pages/center/vet/HistoryVetAppointment";
+import UpcomingAppointmentPage from "./pages/center/vet/UpcomingAppointmentPage";
+import DetailAppointmentPage from "./pages/center/vet/DetailAppointmentPage";
+import PetProfileDetailVetPage from "./pages/center/vet/PetProfileDetailVetPage";
 function App() {
   return (
     <>
@@ -85,7 +91,17 @@ function App() {
 
           {/* Vet Center */}
           <Route path="vet" element={<VetCenterLayout />}>
-            <Route index element={<>Content</>} />
+            <Route index element={<HomeVetPage />} />
+            <Route path="appointments">
+              <Route path="today" element={<TodayVetAppointmentPage />} />
+              <Route path="history" element={<HistoryVetAppointment />} />
+              <Route path="upcoming" element={<UpcomingAppointmentPage />} />
+              <Route path="details/:id" element={<DetailAppointmentPage />} />
+            </Route>
+            <Route
+              path="pet-profile/:id"
+              element={<PetProfileDetailVetPage />}
+            />
             <Route path="settings" element={<UserInfoCardPage />} />
           </Route>
 
