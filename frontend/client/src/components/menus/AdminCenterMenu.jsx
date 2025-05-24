@@ -1,10 +1,6 @@
 import React from "react";
 import { Menu } from "antd";
 import {
-  TeamOutlined,
-  UserOutlined,
-  UserSwitchOutlined,
-  SolutionOutlined,
   SettingOutlined,
   FundOutlined,
   DatabaseFilled,
@@ -31,29 +27,8 @@ export default function AdminCenterMenu() {
       </Menu.Item>
 
       <Menu.ItemGroup key="users" title="User Management">
-        <Menu.Item key="/center/admin/users/pet-owners" icon={<UserOutlined />}>
-          Pet Owners
-        </Menu.Item>
-        <Menu.Item key="/center/admin/users/staff" icon={<TeamOutlined />}>
-          Staff
-        </Menu.Item>
-        <Menu.Item
-          key="/center/admin/users/veterinarians"
-          icon={<SolutionOutlined />}
-        >
-          Veterinarians
-        </Menu.Item>
-        <Menu.Item
-          key="/center/admin/users/admins"
-          icon={<UserSwitchOutlined />}
-        >
-          Admins
-        </Menu.Item>
-      </Menu.ItemGroup>
-
-      <Menu.ItemGroup key="center" title="Center Management">
-        <Menu.Item key="/center/admin/boarding" icon={<DatabaseFilled />}>
-          Service History
+        <Menu.Item key="/center/admin/users" icon={<DatabaseFilled />}>
+          All Users
         </Menu.Item>
       </Menu.ItemGroup>
 

@@ -43,6 +43,10 @@ import HistoryVetAppointment from "./pages/center/vet/HistoryVetAppointment";
 import UpcomingAppointmentPage from "./pages/center/vet/UpcomingAppointmentPage";
 import DetailAppointmentPage from "./pages/center/vet/DetailAppointmentPage";
 import PetProfileDetailVetPage from "./pages/center/vet/PetProfileDetailVetPage";
+import StaffNewAppointmentPage from "./pages/center/staff/appointments/StaffNewAppointmentPage";
+import UserManagePage from "./pages/center/admin/UserManagePage";
+import DashboardAdminPage from "./pages/center/admin/DashboardAdminPage";
+
 function App() {
   return (
     <>
@@ -110,6 +114,7 @@ function App() {
             <Route index element={<StaffHomePage />} />
             <Route path="appointments">
               <Route path="today" element={<StaffTodayAppointmentPage />} />
+              <Route path="new" element={<StaffNewAppointmentPage />} />
               <Route path="history" element={<StaffHistoryAppointmentPage />} />
               <Route path="all" element={<StaffAllAppointmentPage />} />
             </Route>
@@ -131,6 +136,8 @@ function App() {
 
           {/* Admin Center */}
           <Route path="admin" element={<AdminCenterLayout />}>
+            <Route index element={<DashboardAdminPage />} />
+            <Route path="users" element={<UserManagePage />} />
             <Route path="settings" element={<UserInfoCardPage />} />
           </Route>
         </Route>

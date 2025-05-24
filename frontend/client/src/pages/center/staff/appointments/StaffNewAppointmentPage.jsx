@@ -1,7 +1,8 @@
 import React from "react";
 import AppointmentRowEditor from "../../../../components/center/staff/AppointmentRowEditor";
-import { Pagination } from "antd";
+import { Button, Pagination } from "antd";
 import AppointmentFilter from "../../../../components/center/staff/AppointmentFilter";
+import { IoReload } from "react-icons/io5";
 
 const vetList = [
   {
@@ -22,7 +23,7 @@ const vetList = [
   },
 ];
 
-export default function StaffTodayAppointmentPage() {
+export default function StaffNewAppointmentPage() {
   return (
     <div className="w-full p-6 pt-0 ">
       <div className="sticky top-0 mb-6 z-[1000]">
@@ -38,7 +39,7 @@ export default function StaffTodayAppointmentPage() {
             appointment_date: "2025-05-21T10:00:00",
             appointment_type: "Checkup",
             status: "Pending",
-            notes: "Pet needs blood test before checkup.",
+            notes: "Pet needs blood test before checkup. 1",
             notes_from_client: "Please be gentle—pet gets anxious.",
           }}
           vets={vetList}
@@ -54,7 +55,7 @@ export default function StaffTodayAppointmentPage() {
             appointment_date: "2025-05-21T10:00:00",
             appointment_type: "Checkup",
             status: "Pending",
-            notes: "Pet needs blood test before checkup.",
+            notes: "Pet needs blood test before checkup.1",
             notes_from_client: "Please be gentle—pet gets anxious.",
           }}
           vets={vetList}
@@ -70,7 +71,7 @@ export default function StaffTodayAppointmentPage() {
             appointment_date: "2025-05-21T10:00:00",
             appointment_type: "Checkup",
             status: "Pending",
-            notes: "Pet needs blood test before checkup.",
+            notes: "Pet needs blood test before checkup.1",
             notes_from_client: "Please be gentle—pet gets anxious.",
           }}
           vets={vetList}

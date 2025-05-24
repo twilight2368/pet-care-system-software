@@ -15,6 +15,7 @@ import {
 import { MdFiberNew, MdEventRepeat } from "react-icons/md";
 
 import { useNavigate } from "react-router";
+import { BiNews } from "react-icons/bi";
 
 export default function StaffCenterMenu() {
   const navigate = useNavigate();
@@ -41,6 +42,9 @@ export default function StaffCenterMenu() {
           icon={<CalendarOutlined />}
         >
           Today's Appointments
+        </Menu.Item>
+        <Menu.Item key="/center/staff/appointments/new" icon={<MdFiberNew />}>
+          New Appointments
         </Menu.Item>
         <Menu.Item
           key="/center/staff/appointments/history"

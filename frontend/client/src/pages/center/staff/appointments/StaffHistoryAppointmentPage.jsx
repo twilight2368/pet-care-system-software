@@ -1,6 +1,7 @@
 import React from "react";
 import AppointmentRowEditor from "../../../../components/center/staff/AppointmentRowEditor";
 import { Pagination } from "antd";
+import AppointmentFilter from "../../../../components/center/staff/AppointmentFilter";
 
 const vetList = [
   {
@@ -23,66 +24,66 @@ const vetList = [
 
 export default function StaffHistoryAppointmentPage() {
   return (
-    <>
-      <div className="w-full p-6 ">
-        <div className="logo mb-6 text-xl">Appointment history</div>
-        <div className="flex flex-col gap-3 mb-6">
-          <AppointmentRowEditor
-            appointment={{
-              appointment_id: 1,
-              pet_id: 12,
-              owner_id: 5,
-              veterinarian_id: 102,
-              appointment_date: "2025-05-21T10:00:00",
-              appointment_type: "Checkup",
-              status: "Pending",
-              notes: "Pet needs blood test before checkup.",
-              notes_from_client: "Please be gentle—pet gets anxious.",
-            }}
-            vets={vetList}
-            onSave={(updated) => console.log("Updated appointment:", updated)}
-            onCancel={() => console.log("Edit cancelled")}
-            isEditable={false}
-          />
-          <AppointmentRowEditor
-            appointment={{
-              appointment_id: 1,
-              pet_id: 12,
-              owner_id: 5,
-              veterinarian_id: 102,
-              appointment_date: "2025-05-21T10:00:00",
-              appointment_type: "Checkup",
-              status: "Pending",
-              notes: "Pet needs blood test before checkup.",
-              notes_from_client: "Please be gentle—pet gets anxious.",
-            }}
-            vets={vetList}
-            onSave={(updated) => console.log("Updated appointment:", updated)}
-            onCancel={() => console.log("Edit cancelled")}
-            isEditable={false}
-          />
-          <AppointmentRowEditor
-            appointment={{
-              appointment_id: 1,
-              pet_id: 12,
-              owner_id: 5,
-              veterinarian_id: 102,
-              appointment_date: "2025-05-21T10:00:00",
-              appointment_type: "Checkup",
-              status: "Pending",
-              notes: "Pet needs blood test before checkup.",
-              notes_from_client: "Please be gentle—pet gets anxious.",
-            }}
-            vets={vetList}
-            onSave={(updated) => console.log("Updated appointment:", updated)}
-            onCancel={() => console.log("Edit cancelled")}
-            isEditable={false}
-          />
-        </div>
-        <div className="w-full flex justify-center">
-          <Pagination defaultCurrent={1} total={1000} />
-        </div>
+    <div className="w-full p-6 pt-0 ">
+      <div className="sticky top-0 mb-6 z-[1000]">
+        <AppointmentFilter />
       </div>
-    </>
+      <div className="flex flex-col gap-3 mb-6">
+        <AppointmentRowEditor
+          appointment={{
+            appointment_id: 1,
+            pet_id: 12,
+            owner_id: 5,
+            veterinarian_id: 102,
+            appointment_date: "2025-05-21T10:00:00",
+            appointment_type: "Checkup",
+            status: "Pending",
+            notes: "Pet needs blood test before checkup. 1",
+            notes_from_client: "Please be gentle—pet gets anxious.",
+          }}
+          vets={vetList}
+          onSave={(updated) => console.log("Updated appointment:", updated)}
+          onCancel={() => console.log("Edit cancelled")}
+          isEditable={false}
+        />
+        <AppointmentRowEditor
+          appointment={{
+            appointment_id: 1,
+            pet_id: 12,
+            owner_id: 5,
+            veterinarian_id: 102,
+            appointment_date: "2025-05-21T10:00:00",
+            appointment_type: "Checkup",
+            status: "Pending",
+            notes: "Pet needs blood test before checkup.1",
+            notes_from_client: "Please be gentle—pet gets anxious.",
+          }}
+          vets={vetList}
+          onSave={(updated) => console.log("Updated appointment:", updated)}
+          onCancel={() => console.log("Edit cancelled")}
+          isEditable={false}
+        />
+        <AppointmentRowEditor
+          appointment={{
+            appointment_id: 1,
+            pet_id: 12,
+            owner_id: 5,
+            veterinarian_id: 102,
+            appointment_date: "2025-05-21T10:00:00",
+            appointment_type: "Checkup",
+            status: "Pending",
+            notes: "Pet needs blood test before checkup.1",
+            notes_from_client: "Please be gentle—pet gets anxious.",
+          }}
+          vets={vetList}
+          onSave={(updated) => console.log("Updated appointment:", updated)}
+          onCancel={() => console.log("Edit cancelled")}
+          isEditable={false}
+        />
+      </div>
+      <div className="w-full flex justify-center">
+        <Pagination defaultCurrent={1} total={1000} />
+      </div>
+    </div>
   );
 }

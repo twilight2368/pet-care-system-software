@@ -21,7 +21,7 @@ export default function AdminCenterLayout() {
             </Button>
           </div>
         </div>
-        <div className="w-5/6">
+        <div className="w-5/6 h-screen overflow-y-auto">
           <Outlet />
         </div>
       </div>
