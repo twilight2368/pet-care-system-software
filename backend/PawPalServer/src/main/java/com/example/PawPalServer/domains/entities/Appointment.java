@@ -32,7 +32,7 @@ public class Appointment {
     private User owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "veterinarian_id", nullable = false)
+    @JoinColumn(name = "veterinarian_id")
     @ToString.Exclude
     private User veterinarian;
 
