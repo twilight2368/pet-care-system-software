@@ -53,10 +53,4 @@ public class Appointment {
 
     @Column(name = "notes_from_client", columnDefinition = "TEXT")
     private String notesFromClient;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_appointment_id")
-    @ToString.Exclude
-    private Appointment parentAppointment;
-
 }

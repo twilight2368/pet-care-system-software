@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{id}")
-    public ResponseEntity<UserDto> getUsers(@PathVariable Integer id) {
+    public ResponseEntity<UserDto> getUsers(@PathVariable("id") Integer id) {
         Optional<User> result = userService.getUser(id);
         return result
                 .map(user -> new ResponseEntity<>(userMapper.mapToDto(user), HttpStatus.OK))
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @PutMapping("/api/users/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Integer id, @RequestBody UserDto userDto){
         if (userService.isExists(id)){
             userDto.setUserId(id);
             User userEntity = userMapper.mapToEntity(userDto);
@@ -79,7 +79,7 @@ public class UserController {
             @RequestParam String role,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "title") String sortBy
+            @RequestParam(defaultValue = "PET_OWNER") String sortBy
     ){
         try{
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

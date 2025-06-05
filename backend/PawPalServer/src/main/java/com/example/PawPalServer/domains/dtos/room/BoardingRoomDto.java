@@ -8,5 +8,4 @@ import lombok.Data;
 public class BoardingRoomDto {
     private Integer roomId;
     private String roomNumber;
-    private Boolean isAvailable;
 }

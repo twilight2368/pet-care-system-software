@@ -20,8 +20,4 @@ public class BoardingRoom {
     @Column(name = "room_number", unique = true, nullable = false, length = 20)
     private String roomNumber;
 
-    @Column(name = "is_available", nullable = false)
-    @Builder.Default
-    private Boolean isAvailable = true;
-
 }

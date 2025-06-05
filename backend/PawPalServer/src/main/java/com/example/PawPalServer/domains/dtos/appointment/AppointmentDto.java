@@ -21,5 +21,4 @@ public class AppointmentDto {
     private ServiceStatus status;
     private String notes;
     private String notesFromClient;
-    private Integer parentAppointmentId;
 }
