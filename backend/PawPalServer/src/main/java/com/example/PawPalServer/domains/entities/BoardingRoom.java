@@ -1,5 +1,6 @@
 package com.example.PawPalServer.domains.entities;
 
+import com.example.PawPalServer.enums.RoomType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,8 @@ public class BoardingRoom {
 
     @Column(name = "room_number", unique = true, nullable = false, length = 20)
     private String roomNumber;
+
+    @Column(name = "room_type")
+    private RoomType roomType;
 
 }

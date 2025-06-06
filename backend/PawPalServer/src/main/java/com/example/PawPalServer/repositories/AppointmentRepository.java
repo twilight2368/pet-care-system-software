@@ -1,6 +1,7 @@
 package com.example.PawPalServer.repositories;
 
 import com.example.PawPalServer.domains.entities.Appointment;
+import com.example.PawPalServer.enums.AppointmentType;
 import com.example.PawPalServer.enums.ServiceStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
     List<Appointment> findByAppointmentDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
-    Page<Appointment> findByStatus(ServiceStatus serviceStatus);
+    Page<Appointment> findByStatus(ServiceStatus serviceStatus, Pageable pageable);
 
     Page<Appointment> findByAppointmentDateBefore(LocalDateTime now, Pageable pageable);
 
@@ -27,4 +28,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     Page<Appointment> findByVeterinarian_UserIdAndAppointmentDateAfter(Integer vetId, LocalDateTime now, Pageable pageable);
 
     Page<Appointment> findByVeterinarian_UserIdAndAppointmentDateBefore(Integer vetId, LocalDateTime now, Pageable pageable);
+
+    List<Appointment> findByOwner_UserIdAndAppointmentType(Integer userId, AppointmentType appointmentType);
 }

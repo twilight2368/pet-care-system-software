@@ -1,6 +1,7 @@
 package com.example.PawPalServer.services.implement;
 
 import com.example.PawPalServer.domains.entities.Appointment;
+import com.example.PawPalServer.enums.AppointmentType;
 import com.example.PawPalServer.enums.ServiceStatus;
 import com.example.PawPalServer.repositories.AppointmentRepository;
 import com.example.PawPalServer.services.interfaces.AppointmentService;
@@ -67,7 +68,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Page<Appointment> getAppointmentsNew(Pageable pageable) {
         ServiceStatus serviceStatus = ServiceStatus.PENDING;
-        return appointmentRepository.findByStatus(serviceStatus);
+        return appointmentRepository.findByStatus(serviceStatus, pageable);
     }
 
     @Override
@@ -86,6 +87,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         LocalDateTime endOfDay = LocalDateTime.now().toLocalDate().atTime(23, 59, 59); // 23:59:59 today
 
         return appointmentRepository.findByOwner_UserIdAndAppointmentDateBetween(userId, startOfDay, endOfDay);
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByUserIdWithType(Integer userId, AppointmentType appointmentType) {
+        return appointmentRepository.findByOwner_UserIdAndAppointmentType(userId, appointmentType);
     }
 
     @Override

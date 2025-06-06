@@ -1,6 +1,7 @@
 package com.example.PawPalServer.services.interfaces;
 
 import com.example.PawPalServer.domains.entities.Appointment;
+import com.example.PawPalServer.enums.AppointmentType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,10 +25,11 @@ public interface AppointmentService {
     //User
     List<Appointment> getAppointmentsByUserId(Integer userId);
     List<Appointment> getAppointmentByUserToday(Integer userId);
+    List<Appointment> getAppointmentsByUserIdWithType(Integer userId, AppointmentType appointmentType);
 
     //Vet
     List<Appointment> getAppointmentByVetToday(Integer userId);
     Page<Appointment> getAppointmentByVetUpcoming(Integer vetId, Pageable pageable);
-
     Page<Appointment> getAppointmentByVetHistory(Integer vetId, Pageable pageable);
+
 }
