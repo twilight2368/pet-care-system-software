@@ -15,5 +15,5 @@ public class UserDto {
     private String fullName;
     private UserRole role;
     private String specialization;
-    private Boolean isLock;
+    private Boolean isLock = false;
 }
