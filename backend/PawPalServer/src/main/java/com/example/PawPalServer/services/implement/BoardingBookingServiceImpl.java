@@ -43,7 +43,7 @@ public class BoardingBookingServiceImpl implements BoardingBookingService {
 
     @Override
     public List<BoardingBooking> getBoardingBookingByUserId(Integer userId) {
-        return List.of();
+        return  boardingBookingRepository.findByOwner_UserId(userId);
     }
 
     @Override

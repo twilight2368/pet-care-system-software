@@ -12,4 +12,6 @@ public interface BoardingBookingRepository extends JpaRepository<BoardingBooking
     List<BoardingBooking> findByStatus(ServiceStatus serviceStatus);
 
     List<BoardingBooking> findByStatusNot(ServiceStatus serviceStatus);
+
+    List<BoardingBooking> findByOwner_UserId(Integer userId);
 }
