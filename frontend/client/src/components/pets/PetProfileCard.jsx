@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { EyeOutlined, CameraOutlined } from "@ant-design/icons";
 import { AlertOutlined } from "@ant-design/icons";
-import PlaceholderImage from "../../assets/Placeholder.png";
+import PlaceholderImage from "../../assets/cute-dog-with-sunglasses-posing-portrait-generative-ai.jpg";
 
 const { Title, Text } = Typography;
 

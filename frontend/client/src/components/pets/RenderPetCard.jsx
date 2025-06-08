@@ -3,7 +3,7 @@ import { Card, Avatar, Typography, Carousel, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { FaPaw } from "react-icons/fa";
 const { Title, Text } = Typography;
-
+import PlaceholderImage from "../../assets/cute-dog-with-sunglasses-posing-portrait-generative-ai.jpg";
 export default function RenderPetCard({ pet }) {
   return (
     <div className="w-full h-full">
@@ -13,11 +13,7 @@ export default function RenderPetCard({ pet }) {
         className="h-full w-full"
         title={
           <div className="flex items-center gap-3">
-            {pet.photo_url !== "" ? (
-              <Avatar src={pet.photo_url} />
-            ) : (
-              <Avatar icon={<FaPaw />} />
-            )}
+            <Avatar src={PlaceholderImage} />
             <span>{pet.name}</span>
           </div>
         }

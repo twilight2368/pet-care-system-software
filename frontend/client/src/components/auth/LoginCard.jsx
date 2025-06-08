@@ -1,13 +1,35 @@
 import React from "react";
 import { Form, Input, Button, Card } from "antd";
 import { Link, useNavigate } from "react-router";
-
+import { loginPawPal } from "../../apis/api";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setToken, setUserId, setUserInfo } from "../../app/store/UserSlice";
 export default function LoginCard() {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const onFinish = (values) => {
     console.log("Login Info:", values);
-    // Handle login logic here
+    loginPawPal(values)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+
+        const user_res = res.data;
+        dispatch(setUserId(user_res?.user?.userId || ""));
+        dispatch(setUserInfo(user_res?.user || null));
+        dispatch(setToken(user_res?.jwt?.token || ""));
+
+        toast.success("Login successful");
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log(err);
+        console.log("====================================");
+        toast.error("SOMETHING WENT WRONG!!!");
+      });
   };
   return (
     <>
@@ -17,12 +39,9 @@ export default function LoginCard() {
       >
         <Form name="login" layout="vertical" onFinish={onFinish}>
           <Form.Item
-            label="Email Address"
-            name="email"
-            rules={[
-              { required: true, message: "Please enter your email!" },
-              { type: "email", message: "Invalid email format!" },
-            ]}
+            label="Email Address or Username"
+            name="username"
+            rules={[{ required: true, message: "Please enter your email!" }]}
           >
             <Input placeholder="you@example.com" />
           </Form.Item>
@@ -41,9 +60,6 @@ export default function LoginCard() {
               htmlType="submit"
               block
               className="rounded-md"
-              onClick={() => {
-                navigate("/home");
-              }}
             >
               Login
             </Button>

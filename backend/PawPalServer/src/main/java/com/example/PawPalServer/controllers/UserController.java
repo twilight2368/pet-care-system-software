@@ -76,10 +76,10 @@ public class UserController {
 
     @GetMapping("/api/users-role")
     public ResponseEntity<Page<UserDto>> getUsersByRole(
-            @RequestParam String role,
+            @RequestParam(defaultValue = "PET_OWNER") String role,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "PET_OWNER") String sortBy
+            @RequestParam(defaultValue = "userId") String sortBy
     ){
         try{
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

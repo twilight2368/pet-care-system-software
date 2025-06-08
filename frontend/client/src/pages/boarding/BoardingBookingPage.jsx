@@ -52,20 +52,7 @@ export default function BoardingBookingPage() {
     <div className="p-4 space-y-6 outlet-layout m-0 overflow-y-auto">
       <div className="flex flex-row gap-6  items-end">
         <div className=" logo text-2xl ">🏨 Boarding Booking Service</div>
-
         <BookingHotelModal />
-      </div>
-
-      <div className=" flex flex-row items gap-3.5 mb-24">
-        <div className="w-1/2 p-2">
-          <div className=" font-bold text-lg mb-3">Current Bookings</div>
-          <CurrentBookingDisplay bookings={currentBookings} />
-        </div>
-        <div className="w-1/2 p-2">
-          {" "}
-          <div className=" font-bold text-lg mb-3">Available rooms</div>
-          <AvailableRoomsCard available={25} total={50} />
-        </div>
       </div>
       <div className="w-full">
         <HistoryBookingDisplay bookingHistory={bookingHistory} />

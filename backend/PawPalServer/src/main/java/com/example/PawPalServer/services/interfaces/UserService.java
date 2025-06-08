@@ -13,6 +13,7 @@ public interface UserService {
     Page<User> getUser(Pageable pageable);
     List<User> getUser();
     Optional<User> getUser(Integer id);
+    boolean isExistsByUsernameOrEmail(String username, String email);
     User updateUser(User updateUser);
     Page<User> getUserByRole(UserRole role, Pageable pageable);
     boolean isExists(Integer id);

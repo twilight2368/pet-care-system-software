@@ -11,4 +11,40 @@ const api = axios.create({
   },
 });
 
+// Interceptor to attach token to every request
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("jwt"); // Replace 'jwt' with your actual key name
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getHelloPawPal = () => api.get(API_URL);
+export const loginPawPal = (data) =>
+  api.post(API_URL + "/api/auth/login", data);
+export const registerPawPal = (data) =>
+  api.post(API_URL + "/api/auth/register", data);
+export const getUserAppointmentToday = (id) =>
+  api.get(API_URL + "/api/appointment/user/today/" + id);
+export const getUserAppointment = (id) =>
+  api.get(API_URL + "/api/appointment/user/" + id);
+export const getPetByUser = (id) => api.get(API_URL + "/api/pets-user/" + id);
+export const createPet = (data) => api.post(API_URL + "/api/pets", data);
+export const getGroomingServiceBooking = (id) =>
+  api.get(API_URL + "/api/grooming/user/" + id);
+export const createGroomingServiceBooking = (data) =>
+  api.post(API_URL + "/api/grooming", data);
+export const createAppointment = (data) =>
+  api.post(API_URL + "/api/appointment", data);
+export const getUserAppointmentAndType = (id, type) =>
+  api.get(`${API_URL}/api/appointment/user/type/${id}`, {
+    params: {
+      appointmentType: type,
+    },
+  });

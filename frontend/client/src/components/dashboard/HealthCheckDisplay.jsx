@@ -32,71 +32,65 @@ export default function HealthCheckDisplay() {
 
         {/* Services Section */}
         <div className="grid gap-6">
-          {/* Injection Service */}
-          <Link to="services/vet/injection" className="block h-full">
-            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-blue-200 hover:border-blue-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-200/50">
-              {/* Animated border glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-400/20 to-blue-500/20 blur-sm" />
+          <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-blue-200 hover:border-blue-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-200/50">
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-400/20 to-blue-500/20 blur-sm" />
 
-              {/* Content */}
-              <div className="relative z-10 flex items-center gap-4 w-full">
-                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
-                  <BiInjection className="text-2xl text-blue-600 group-hover:text-blue-700 transition-colors duration-300" />
-                </div>
-                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
-                  Injection Services
-                </span>
-                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <svg
-                    className="w-5 h-5 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
+            {/* Content */}
+            <div className="relative z-10 flex items-center gap-4 w-full">
+              <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                <BiInjection className="text-2xl text-blue-600 group-hover:text-blue-700 transition-colors duration-300" />
+              </div>
+              <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                Injection Services
+              </span>
+              <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg
+                  className="w-5 h-5 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </div>
             </div>
-          </Link>
+          </div>
 
-          {/* Health Check Service */}
-          <Link to="services/vet/health-check" className="block h-full">
-            <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-red-50 to-red-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-red-200 hover:border-red-400 hover:scale-105 hover:shadow-2xl hover:shadow-red-200/50">
-              {/* Animated border glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-red-400/20 to-red-500/20 blur-sm" />
+          <div className="group relative w-full h-full px-6 py-6 overflow-hidden bg-gradient-to-r from-red-50 to-red-100 rounded-2xl shadow-lg flex items-center gap-4 transition-all duration-300 ease-in-out transform border-2 border-red-200 hover:border-red-400 hover:scale-105 hover:shadow-2xl hover:shadow-red-200/50">
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-red-400/20 to-red-500/20 blur-sm" />
 
-              {/* Content */}
-              <div className="relative z-10 flex items-center gap-4 w-full">
-                <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
-                  <MdOutlineHealthAndSafety className="text-2xl text-red-600 group-hover:text-red-700 transition-colors duration-300" />
-                </div>
-                <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
-                  Health Checkup
-                </span>
-                <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <svg
-                    className="w-5 h-5 text-red-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
+            {/* Content */}
+            <div className="relative z-10 flex items-center gap-4 w-full">
+              <div className="p-3 rounded-xl bg-white shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                <MdOutlineHealthAndSafety className="text-2xl text-red-600 group-hover:text-red-700 transition-colors duration-300" />
+              </div>
+              <span className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                Health Checkup
+              </span>
+              <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg
+                  className="w-5 h-5 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

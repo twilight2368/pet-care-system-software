@@ -13,8 +13,6 @@ import { ToastContainer } from "react-toastify";
 import PetDetailPage from "./pages/pets/PetDetailPage";
 import AddPetPage from "./pages/pets/AddPetPage";
 import OnePetDetailPage from "./pages/pets/OnePetDetailPage";
-import BathTrimPage from "./pages/grooming/BathTrimPage";
-import SpaPage from "./pages/grooming/SpaPage";
 import VaccinationAppointmentFormPage from "./pages/vet/VaccinationAppointmentFormPage";
 import CheckUpAppointmentFormPage from "./pages/vet/CheckUpAppointmentPage";
 import BoardingBookingPage from "./pages/boarding/BoardingBookingPage";
@@ -46,6 +44,7 @@ import PetProfileDetailVetPage from "./pages/center/vet/PetProfileDetailVetPage"
 import StaffNewAppointmentPage from "./pages/center/staff/appointments/StaffNewAppointmentPage";
 import UserManagePage from "./pages/center/admin/UserManagePage";
 import DashboardAdminPage from "./pages/center/admin/DashboardAdminPage";
+import GroomingPage from "./pages/grooming/GroomingPage";
 
 function App() {
   return (
@@ -67,10 +66,7 @@ function App() {
           <Route path="add-pet" element={<AddPetPage />} />
 
           {/* Grooming Services */}
-          <Route path="services/grooming">
-            <Route path="bath" element={<BathTrimPage />} />
-            <Route path="spa" element={<SpaPage />} />
-          </Route>
+          <Route path="services/grooming" element={<GroomingPage />} />
 
           {/* Vet Services */}
           <Route path="services/vet">
@@ -125,7 +121,6 @@ function App() {
               <Route path="history" element={<HistoryGroomingBookingPage />} />
             </Route>
             <Route path="boarding">
-              {" "}
               <Route path="rooms" element={<RoomManagementPage />} />
               <Route path="bookings" element={<BookingManagementPage />} />
               <Route path="bookings/:id" element={<BookingDetailPage />} />

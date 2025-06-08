@@ -63,14 +63,6 @@ const table_columns = [
       </Tag>
     ),
   },
-  {
-    title: "",
-    dataIndex: "booking_id",
-    key: "Booking Id",
-    render: (booking_id) => (
-      <Link to={"bookings/" + booking_id}>See details</Link>
-    ),
-  },
 ];
 export default function HistoryBookingDisplay({ bookingHistory }) {
   return (

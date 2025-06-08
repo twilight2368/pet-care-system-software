@@ -33,7 +33,7 @@ public class GroomingService {
     private User owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "staff_id")
+    @JoinColumn(name = "staff_id", nullable = true)
     @ToString.Exclude
     private User staff;
 
