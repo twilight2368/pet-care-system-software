@@ -1,25 +1,34 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Input, DatePicker } from "antd";
-import dayjs from "dayjs";
 import { FaPlus } from "react-icons/fa";
+import { makeDietPlan } from "../../apis/api";
+import { toast } from "react-toastify";
 
 const { RangePicker } = DatePicker;
 
-export default function DietPetFormModal({ onSubmit }) {
+export default function DietPetFormModal({ pet }) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
 
   const handleFinish = (values) => {
     const [start, end] = values.date_range || [];
     const formatted = {
-      pet_id: values.pet_id,
-      diet_details: values.diet_details,
-      start_date: start ? start.format("YYYY-MM-DD") : null,
-      end_date: end ? end.format("YYYY-MM-DD") : null,
+      pet: pet,
+      dietDetails: values.diet_details,
+      startDate: start ? start.format("YYYY-MM-DD") : null,
+      endDate: end ? end.format("YYYY-MM-DD") : null,
     };
-    onSubmit?.(formatted);
-    form.resetFields();
-    setOpen(false);
+    makeDietPlan(formatted)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        form.resetFields();
+        toast.success("Added diet plan");
+      })
+      .catch(() => {
+        toast.error("Something went wrong!!!");
+      });
   };
 
   return (

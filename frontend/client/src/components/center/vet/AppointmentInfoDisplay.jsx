@@ -7,51 +7,59 @@ import { useNavigate } from "react-router";
 const { Text } = Typography;
 
 const statusColors = {
-  Pending: "orange",
-  Confirmed: "blue",
-  Completed: "green",
-  CheckedIn: "purple",
-  CheckedOut: "cyan",
-  Cancelled: "red",
+  PENDING: "orange",
+  CONFIRMED: "blue",
+  COMPLETED: "green",
+  CHECKED_IN: "purple",
+  CHECKED_OUT: "cyan",
+  CANCELLED: "red",
 };
 
 const appointmentTypeColors = {
-  Checkup: "green",
-  Vaccination: "blue",
-  Testing: "purple",
-  Reexam: "orange",
-  Other: "gray",
+  CHECKUP: "green",
+  VACCINATION: "blue",
+  TESTING: "purple",
+  REEXAM: "orange",
+  OTHER: "gray",
 };
 
-export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
+export default function AppointmentInfoDisplay({ appointment }) {
   const navigate = useNavigate();
+
+  const {
+    pet,
+    veterinarian,
+    appointmentType,
+    status,
+    appointmentDate,
+    notesFromClient,
+    appointmentId,
+  } = appointment;
+
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-6 mb-4 space-y-4">
       {/* Header: Pet Info */}
       <div className="grid grid-cols-5 gap-6">
         <div>
           <div className="font-medium text-gray-800">
-            {pet?.id || "000"} - {pet?.name || "Unknown Pet"}
+            {pet?.petId ?? "000"} - {pet?.name ?? "Unknown Pet"}
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            Owner: {pet?.owner?.full_name || "Unknown Owner"}
+            Owner: {pet?.owner?.fullName ?? "Unknown Owner"}
           </div>
         </div>
 
         {/* Appointment Type */}
         <div>
-          {" "}
           <div className="text-xs font-semibold text-gray-500">
             Appointment Type
           </div>
           <Tag
             bordered={false}
-            color={
-              appointmentTypeColors[appointment?.appointment_type] || "default"
-            }
+            color={appointmentTypeColors[appointmentType] || "default"}
             className="text-sm px-3 py-1 rounded-full font-medium"
           >
-            {appointment?.appointment_type}
+            {appointmentType}
           </Tag>
         </div>
 
@@ -59,8 +67,8 @@ export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
         <div>
           <div className="text-xs font-semibold text-gray-500">Date & Time</div>
           <div className="font-medium text-gray-800">
-            {appointment?.appointment_date
-              ? dayjs(appointment.appointment_date).format("MMM D, YYYY h:mm A")
+            {appointmentDate
+              ? dayjs(appointmentDate).format("MMM D, YYYY h:mm A")
               : "No date set"}
           </div>
         </div>
@@ -71,7 +79,7 @@ export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
             Veterinarian
           </div>
           <div className="font-medium text-gray-800">
-            {vet?.full_name || "Unknown Vet"}
+            {veterinarian?.fullName ?? "Unknown Vet"}
           </div>
         </div>
 
@@ -79,11 +87,11 @@ export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
         <div>
           <div className="text-xs font-semibold text-gray-500">Status</div>
           <Tag
-            color={statusColors[appointment?.status] || "default"}
+            color={statusColors[status] || "default"}
             className="text-sm px-3 py-1 rounded-full font-medium"
             bordered={false}
           >
-            {appointment?.status}
+            {status}
           </Tag>
         </div>
       </div>
@@ -97,7 +105,7 @@ export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
             Client Note:
           </Text>
           <span className="text-sm text-gray-700">
-            {appointment?.notes_from_client || (
+            {notesFromClient || (
               <span className="text-gray-400 italic">No client note</span>
             )}
           </span>
@@ -110,9 +118,9 @@ export default function AppointmentInfoDisplay({ appointment, pet, vet }) {
           size="small"
           type="link"
           className="bg-blue-500 hover:bg-blue-600"
-          onClick={() => {
-            navigate("/center/vet/appointments/details/" + 123);
-          }}
+          onClick={() =>
+            navigate("/center/vet/appointments/details/" + appointmentId)
+          }
           icon={<FaArrowRight />}
           iconPosition="end"
         >

@@ -7,10 +7,7 @@ import { FaPlus } from "react-icons/fa";
 const { TextArea } = Input;
 const { Option } = Select;
 
-export default function MedicalRecordModal({
-  petOptions = [],
-  vetOptions = [],
-}) {
+export default function MedicalRecordModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
 

@@ -48,3 +48,30 @@ export const getUserAppointmentAndType = (id, type) =>
       appointmentType: type,
     },
   });
+export const getBoardingBooking = (id) => api.get("/api/boarding-user/" + id);
+export const createBoardingBooking = (data) => api.post("/api/boarding", data);
+export const getRooms = () => api.get("/api/room");
+export const getPetById = (id) => api.get("/api/pets/" + id);
+export const updatePetById = (id, data) => api.put("/api/pets/" + id, data);
+export const makeDietPlan = (data) => api.post("/api/plan", data);
+export const getDietById = (id) => api.get("/api/plan/" + id);
+export const getMedicalRecordByPetId = (id) =>
+  api.get("/api/medical-pet/" + id);
+export const getAllUsers = () => api.get("/api/all-users");
+export const getAppointmentByVetId = (id) =>
+  api.get("/api/appointment/vet/today/" + id);
+export const getUpcomingAppointmentByVetId = (id, page, size) =>
+  api.get(`${API_URL}/api/appointment/vet/upcoming/${id}`, {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
+
+export const getHistoryAppointmentByVetId = (id, page, size) =>
+  api.get(`${API_URL}/api/appointment/vet/history/${id}`, {
+    params: {
+      page: page,
+      size: size,
+    },
+  });

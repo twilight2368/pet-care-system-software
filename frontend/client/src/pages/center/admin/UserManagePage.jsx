@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Tag } from "antd";
 import {
   LockOutlined,
@@ -11,70 +11,74 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import UserSideFilter from "../../../components/center/admin/UserFilterSearch";
-
-const initialUsers = [
-  {
-    user_id: 1,
-    username: "alice123",
-    email: "alice@example.com",
-    phone: "1234567890",
-    full_name: "Alice Smith",
-    role: "PetOwner",
-    specialization: "",
-    is_lock: false,
-  },
-  {
-    user_id: 2,
-    username: "vetjohn",
-    email: "john@vetcare.com",
-    phone: "9876543210",
-    full_name: "Dr. John Vet",
-    role: "Veterinarian",
-    specialization: "Dermatology",
-    is_lock: true,
-  },
-  {
-    user_id: 3,
-    username: "admin1",
-    email: "admin@clinic.com",
-    phone: "1122334455",
-    full_name: "Clinic Admin",
-    role: "Admin",
-    specialization: "",
-    is_lock: false,
-  },
-  {
-    user_id: 4,
-    username: "reception88",
-    email: "reception@example.com",
-    phone: "2233445566",
-    full_name: "Reception Staff",
-    role: "Staff",
-    specialization: "",
-    is_lock: true,
-  },
-  {
-    user_id: 5,
-    username: "bruno_pet",
-    email: "bruno@pets.com",
-    phone: "4455667788",
-    full_name: "Bruno Mars",
-    role: "PetOwner",
-    specialization: "",
-    is_lock: false,
-  },
-];
+import { UserRoleTag } from "../../../components/tags/CustomTags";
+import { getAllUsers } from "../../../apis/api";
 
 export default function UserManagePage() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]); // all users from API
+  const [filteredUsers, setFilteredUsers] = useState([]); // filtered users shown in table
+  const [filters, setFilters] = useState({
+    search: "",
+    role: null,
+    isLock: null,
+  });
 
-  const toggleLock = (user_id) => {
+  const toggleLock = (userId) => {
     setUsers((prev) =>
-      prev.map((u) =>
-        u.user_id === user_id ? { ...u, is_lock: !u.is_lock } : u
-      )
+      prev.map((u) => (u.userId === userId ? { ...u, isLock: !u.isLock } : u))
     );
-    toast.success("Successful");
+    // Also update filteredUsers for UI update
+    setFilteredUsers((prev) =>
+      prev.map((u) => (u.userId === userId ? { ...u, isLock: !u.isLock } : u))
+    );
+    toast.success("Lock status changed successfully");
+  };
+
+  useEffect(() => {
+    getAllUsers()
+      .then((res) => {
+        setUsers(res.data);
+        setFilteredUsers(res.data); // Initially show all
+      })
+      .catch(() => {
+        toast.error("Failed to get users data!!!");
+      });
+  }, []);
+
+  // Filter logic
+  const applyFilters = ({ search, role, isLock }) => {
+    setFilters({ search, role, isLock });
+
+    let filtered = [...users];
+
+    if (search && search.trim() !== "") {
+      const s = search.toLowerCase();
+      filtered = filtered.filter(
+        (u) =>
+          u.username.toLowerCase().includes(s) ||
+          u.email.toLowerCase().includes(s) ||
+          u.fullName.toLowerCase().includes(s)
+      );
+    }
+
+    if (role) {
+      filtered = filtered.filter((u) => u.role === role);
+    }
+
+    if (isLock !== null && isLock !== undefined) {
+      filtered = filtered.filter((u) => u.isLock === isLock);
+    }
+
+    setFilteredUsers(filtered);
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      search: "",
+      role: null,
+      isLock: null,
+    });
+    setFilteredUsers(users);
   };
 
   const columns = [
@@ -108,11 +112,11 @@ export default function UserManagePage() {
     {
       title: (
         <>
-          <IdcardOutlined /> Full name
+          <IdcardOutlined /> Full Name
         </>
       ),
-      dataIndex: "full_name",
-      key: "full_name",
+      dataIndex: "fullName",
+      key: "fullName",
     },
     {
       title: (
@@ -122,28 +126,7 @@ export default function UserManagePage() {
       ),
       dataIndex: "role",
       key: "role",
-      render: (role) => {
-        let color = "blue"; // default
-
-        switch (role) {
-          case "Admin":
-            color = "red";
-            break;
-          case "Veterinarian":
-            color = "green";
-            break;
-          case "Staff":
-            color = "orange";
-            break;
-          case "PetOwner":
-            color = "geekblue";
-            break;
-          default:
-            color = "blue";
-        }
-
-        return <Tag color={color}>{role}</Tag>;
-      },
+      render: (role) => <UserRoleTag value={role} />,
     },
     {
       title: "🧪 Specialization",
@@ -158,9 +141,9 @@ export default function UserManagePage() {
       render: (_, record) => (
         <Button
           type="text"
-          icon={record.is_lock ? <LockOutlined /> : <UnlockOutlined />}
-          danger={record.is_lock}
-          onClick={() => toggleLock(record.user_id)}
+          icon={record.isLock ? <LockOutlined /> : <UnlockOutlined />}
+          danger={record.isLock}
+          onClick={() => toggleLock(record.userId)}
         />
       ),
     },
@@ -169,12 +152,12 @@ export default function UserManagePage() {
   return (
     <div className="w-full flex flex-row">
       <div className="w-1/5">
-        <UserSideFilter />
+        <UserSideFilter onApply={applyFilters} onReset={resetFilters} />
       </div>
       <div className="w-4/5 h-screen overflow-y-auto">
         <Table
-          rowKey="user_id"
-          dataSource={users}
+          rowKey="userId"
+          dataSource={filteredUsers}
           columns={columns}
           pagination={{ pageSize: 20 }}
           bordered

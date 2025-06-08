@@ -31,7 +31,11 @@ export default function CenterWelcomePage() {
             </Button>
           </div>
           <div className="w-full px-36 flex justify-center">
-            {isRegistering ? <RegisterVetCard /> : <LoginVetCard />}
+            {isRegistering ? (
+              <RegisterVetCard setIsRegistering={setIsRegistering} />
+            ) : (
+              <LoginVetCard />
+            )}
           </div>
         </div>
       </div>

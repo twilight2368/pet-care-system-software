@@ -1,87 +1,77 @@
-import { Pagination } from "antd";
-import React from "react";
+import { Empty, Pagination, Spin } from "antd";
+import React, { useState, useEffect } from "react";
 import AppointmentInfoDisplay from "../../../components/center/vet/AppointmentInfoDisplay";
-// Mock data — replace with actual source
-const mockAppointments = [
-  {
-    appointment_id: 1,
-    pet: {
-      id: 101,
-      name: "Buddy",
-      owner: { full_name: "Alice Smith" },
-    },
-    veterinarian: { full_name: "Dr. Jane Doe" },
-    appointment_type: "Checkup",
-    appointment_date: "2025-05-20T10:00:00",
-    status: "Completed",
-    notes_from_client: "He’s been limping a bit.",
-  },
-  {
-    appointment_id: 2,
-    pet: {
-      id: 102,
-      name: "Max",
-      owner: { full_name: "John Doe" },
-    },
-    veterinarian: { full_name: "Dr. John Vet" },
-    appointment_type: "Vaccination",
-    appointment_date: "2025-05-22T09:00:00",
-    status: "Confirmed",
-    notes_from_client: "",
-  },
-  {
-    appointment_id: 3,
-    pet: {
-      id: 102,
-      name: "Max",
-      owner: { full_name: "John Doe" },
-    },
-    veterinarian: { full_name: "Dr. John Vet" },
-    appointment_type: "Vaccination",
-    appointment_date: "2025-05-22T09:00:00",
-    status: "Confirmed",
-    notes_from_client: "",
-  },
-  {
-    appointment_id: 4,
-    pet: {
-      id: 102,
-      name: "Max",
-      owner: { full_name: "John Doe" },
-    },
-    veterinarian: { full_name: "Dr. John Vet" },
-    appointment_type: "Vaccination",
-    appointment_date: "2025-05-22T09:00:00",
-    status: "Confirmed",
-    notes_from_client: "",
-  },
-];
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getUpcomingAppointmentByVetId } from "../../../apis/api";
 
 export default function UpcomingAppointmentPage() {
+  const [data, setData] = useState([]);
+  const [totalElements, setTotalElements] = useState(0);
+  const [page, setPage] = useState(1); // 1-based page index for UI
+  const [pageSize, setPageSize] = useState(10); // default page size
+  const [loading, setLoading] = useState(false);
+
+  const user_id = useSelector((state) => state.user.user_id);
+
+  const fetchAppointments = (pageNumber, size) => {
+    setLoading(true);
+    // Note: Adjust API call if it expects zero-based page index
+    getUpcomingAppointmentByVetId(user_id, pageNumber - 1, size)
+      .then((res) => {
+        setData(res.data.content || []);
+        setTotalElements(res.data.totalElements || 0);
+      })
+      .catch(() => {
+        toast.error("Failed to get appointments!!!");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (user_id) {
+      fetchAppointments(page, pageSize);
+    }
+  }, [user_id, page, pageSize]);
+
+  const onPageChange = (pageNumber, newPageSize) => {
+    setPage(pageNumber);
+    setPageSize(newPageSize);
+  };
+
   return (
     <div className="p-6">
       <div className="logo text-xl mb-12">Upcoming Appointments</div>
       {/* Results */}
       <div>
-        {mockAppointments.length === 0 ? (
+        {loading ? (
+          <div>
+            <Spin />
+          </div>
+        ) : data.length === 0 ? (
           <Empty description="No appointments found." />
         ) : (
           <>
-            {mockAppointments.map((appointment) => (
+            {data.map((appointment) => (
               <AppointmentInfoDisplay
-                key={appointment.appointment_id}
+                key={appointment.appointmentId}
                 appointment={appointment}
-                pet={appointment.pet}
-                vet={appointment.veterinarian}
-                onSeeDetails={() => {
-                  console.log("See details for", appointment.appointment_id);
-                }}
               />
             ))}
           </>
-        )}{" "}
+        )}
+
         <div className="flex justify-center items-center p-6 pb-12">
-          <Pagination defaultCurrent={1} total={50} />
+          <Pagination
+            current={page}
+            pageSize={pageSize}
+            total={totalElements}
+            showSizeChanger
+            onChange={onPageChange}
+            onShowSizeChange={onPageChange}
+          />
         </div>
       </div>
     </div>

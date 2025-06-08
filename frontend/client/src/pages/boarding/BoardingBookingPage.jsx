@@ -1,53 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookingHotelModal from "../../components/modals/BookingHotelModal";
-import CurrentBookingDisplay from "../../components/boarding/CurrentBookingDisplay";
 import HistoryBookingDisplay from "../../components/boarding/HistoryBookingDisplay";
 import "../layout.css";
-import AvailableRoomsCard from "../../components/boarding/AvailableRoomCard";
-const bookingHistory = [
-  {
-    booking_id: 1,
-    pet_id: 101,
-    room_number: "A101",
-    check_in_date: "2025-05-01",
-    check_out_date: "2025-05-05",
-    status: "Completed",
-  },
-  {
-    booking_id: 2,
-    pet_id: 102,
-    room_number: "A102",
-    check_in_date: "2025-06-01",
-    check_out_date: "2025-06-10",
-    status: "Cancelled",
-  },
-];
-
-const currentBookings = [
-  {
-    booking_id: 1,
-    room_number: "B101",
-    check_in_date: "2025-05-14",
-    check_out_date: "2025-05-20",
-    status: "Pending",
-  },
-  {
-    booking_id: 2,
-    room_number: "B203",
-    check_in_date: "2025-05-10",
-    check_out_date: "2025-05-15",
-    status: "Completed",
-  },
-  {
-    booking_id: 3,
-    room_number: "C001",
-    check_in_date: "2025-05-13",
-    check_out_date: "2025-05-18",
-    status: "Pending",
-  },
-];
+import { getBoardingBooking } from "../../apis/api";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function BoardingBookingPage() {
+  const [data, setData] = useState();
+  const user_id = useSelector((state) => state.user.user_id);
+
+  useEffect(() => {
+    getBoardingBooking(user_id)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        setData(res.data);
+      })
+      .catch(() => {
+        toast.error("Oop!");
+      });
+  }, [user_id]);
+
   return (
     <div className="p-4 space-y-6 outlet-layout m-0 overflow-y-auto">
       <div className="flex flex-row gap-6  items-end">
@@ -55,7 +30,7 @@ export default function BoardingBookingPage() {
         <BookingHotelModal />
       </div>
       <div className="w-full">
-        <HistoryBookingDisplay bookingHistory={bookingHistory} />
+        <HistoryBookingDisplay bookingHistory={data} />
       </div>
     </div>
   );
