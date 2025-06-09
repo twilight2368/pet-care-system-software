@@ -75,21 +75,12 @@ public class UserController {
     }
 
     @GetMapping("/api/users-role")
-    public ResponseEntity<Page<UserDto>> getUsersByRole(
-            @RequestParam(defaultValue = "PET_OWNER") String role,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "userId") String sortBy
+    public ResponseEntity<List<UserDto>> getUsersByRole(
+            @RequestParam(defaultValue = "PET_OWNER") String role
     ){
-        try{
-            Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
             UserRole userRole = UserRole.valueOf(role);
-            Page<User> userPage = userService.getUserByRole(userRole, pageable);
-            Page<UserDto> dtoPage = userPage.map(userMapper::mapToDto);
-            return new ResponseEntity<>(dtoPage, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+            List<User> userList = userService.getUserByRole(userRole);
+            return new ResponseEntity<>(userList.stream().map(userMapper::mapToDto).toList(), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/users/{id}")

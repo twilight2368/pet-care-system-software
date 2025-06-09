@@ -10,7 +10,11 @@ export const AppointmentTypeTag = ({ value }) => {
     REEXAM: "cyan",
     OTHER: "default",
   };
-  return <Tag color={colors[value]}>{value}</Tag>;
+  return (
+    <Tag bordered={false} color={colors[value]}>
+      {value}
+    </Tag>
+  );
 };
 
 // GroomingServiceTypeTag
@@ -19,7 +23,11 @@ export const GroomingServiceTypeTag = ({ value }) => {
     BATH_AND_TRIM: "magenta",
     SPA: "gold",
   };
-  return <Tag color={colors[value]}>{value}</Tag>;
+  return (
+    <Tag bordered={false} color={colors[value]}>
+      {value}
+    </Tag>
+  );
 };
 
 // NotificationTypeTag
@@ -50,7 +58,11 @@ export const RecurrencePatternTag = ({ value }) => {
     MONTHLY: "blue",
     NONE: "default",
   };
-  return <Tag color={colors[value]}>{value}</Tag>;
+  return (
+    <Tag bordered={false} color={colors[value]}>
+      {value}
+    </Tag>
+  );
 };
 
 // RoomTypeTag
@@ -59,7 +71,11 @@ export const RoomTypeTag = ({ value }) => {
     STANDARD: "green",
     VIP: "gold",
   };
-  return <Tag color={colors[value]}>{value}</Tag>;
+  return (
+    <Tag bordered={false} color={colors[value]}>
+      {value}
+    </Tag>
+  );
 };
 
 // ServiceStatusTag

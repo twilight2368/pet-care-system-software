@@ -67,7 +67,7 @@ export default function UpComingAppmt() {
 
 function UpAppointmentCard({ appointment }) {
   const formatDate = (dateString) => {
-    const date = dayjs(dateString);
+    const date = dayjs(dateString).add(7, "hours");
     return {
       date: date.format("ddd, MMM D"), // "Thu, May 22"
       time: date.format("hh:mm A"), // "10:00 AM"

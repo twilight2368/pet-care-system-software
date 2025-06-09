@@ -75,3 +75,83 @@ export const getHistoryAppointmentByVetId = (id, page, size) =>
       size: size,
     },
   });
+export const getAppointmentToday = () =>
+  api.get(`${API_URL}/api/appointment/staff/today`);
+export const getUserByRole = (role) =>
+  api.get(`${API_URL}/api/users-role`, {
+    params: {
+      role: role,
+    },
+  });
+export const updateAppointment = (id, data) =>
+  api.put(API_URL + "/api/appointment/" + id, data);
+export const getNewAppointment = (page, size) =>
+  api.get(API_URL + "/api/appointment/staff/new", {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
+
+export const getHistoryAppointment = (page, size) =>
+  api.get(API_URL + "/api/appointment/staff/history", {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
+
+export const getAllAppointment = () =>
+  api.get(API_URL + "/api/appointment/staff/all");
+
+export const getGroomingBookingByDay = (date) =>
+  api.get(API_URL + "/api/grooming-date", {
+    params: {
+      date: date,
+    },
+  });
+
+export const getNewGroomingBooking = () =>
+  api.get(API_URL + "/api/grooming-new");
+
+export const updateGroomingBooking = (id, data) =>
+  api.put(API_URL + "/api/grooming/" + id, data);
+
+export const getHistoryGroomingBooking = (page, size) =>
+  api.get(API_URL + "/api/grooming-history", {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
+
+export const getGroomingBookingByPattern = (
+  page = 0,
+  size = 5,
+  pattern = "NONE"
+) =>
+  api.get(API_URL + "/api/grooming-period", {
+    params: {
+      page: page,
+      size: size,
+      pattern: pattern,
+    },
+  });
+
+export const getBoardingBookingHistory = () =>
+  api.get(API_URL + "/api/boarding-history");
+
+export const getBoardingBookingStatus = (status) =>
+  api.get(API_URL + "/api/boarding-status", {
+    params: {
+      status: status,
+    },
+  });
+
+export const updateBoardingBooking = (id, data) =>
+  api.put(API_URL + "/api/boarding/" + id, data);
+
+export const getBoardingBookingByRoom = (id) =>
+  api.get(API_URL + "/api/boarding-room/" + id);
+
+export const addRoom = (data) => api.post(API_URL + "/api/room", data);

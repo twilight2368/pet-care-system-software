@@ -45,7 +45,13 @@ export default function AppointmentInfoDisplay({ appointment }) {
             {pet?.petId ?? "000"} - {pet?.name ?? "Unknown Pet"}
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            Owner: {pet?.owner?.fullName ?? "Unknown Owner"}
+            <div className="text-xs text-gray-500 mt-1">
+              👤: {appointment?.owner?.fullName || "Unknown Owner"}
+              <br />
+              ☎️: {appointment?.owner?.phone || "Unknown"}
+              <br />
+              ✉️: {appointment?.owner?.email || "Unknown"}
+            </div>
           </div>
         </div>
 
@@ -68,7 +74,7 @@ export default function AppointmentInfoDisplay({ appointment }) {
           <div className="text-xs font-semibold text-gray-500">Date & Time</div>
           <div className="font-medium text-gray-800">
             {appointmentDate
-              ? dayjs(appointmentDate).format("MMM D, YYYY h:mm A")
+              ? dayjs(appointmentDate).add(7, "h").format("MMM D, YYYY h:mm A")
               : "No date set"}
           </div>
         </div>

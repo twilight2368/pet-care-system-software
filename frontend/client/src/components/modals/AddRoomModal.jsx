@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Modal, Form, Input, Button, message } from "antd";
+import { Modal, Form, Input, Button, message, Select } from "antd";
 import { FaPlus } from "react-icons/fa6";
+import { addRoom } from "../../apis/api";
+import { toast } from "react-toastify";
 
-export default function AddRoomModal({ onAdd, existingRoomNumbers }) {
+const { Option } = Select;
+
+export default function AddRoomModal({ existingRoomNumbers = [] }) {
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
 
   const openModal = () => setVisible(true);
+
   const closeModal = () => {
     form.resetFields();
     setVisible(false);
@@ -14,28 +19,48 @@ export default function AddRoomModal({ onAdd, existingRoomNumbers }) {
 
   const handleOk = () => {
     form.validateFields().then((values) => {
-      const roomNum = Number(values.room_number);
-      if (existingRoomNumbers.includes(roomNum)) {
+      const { room_number, room_type } = values;
+
+      // Check for duplicate room number
+      if (existingRoomNumbers.includes(room_number)) {
         message.error("Room number already exists!");
         return;
       }
-      onAdd({
-        room_number: roomNum,
-        is_available: values.is_available ?? true,
-      });
-      closeModal();
+
+      const newRoom = {
+        roomNumber: room_number,
+        roomType: room_type,
+      };
+
+      addRoom(newRoom)
+        .then((res) => {
+          console.log("====================================");
+          console.log(res.data);
+          console.log("====================================");
+          toast.success("Add room success");
+        })
+        .catch(() => {
+          toast.success("Add room failed");
+        });
     });
   };
 
   return (
     <>
-      <Button type="primary" size="large" icon={<FaPlus />} onClick={openModal}>
+      <Button
+        variant="text"
+        type="text"
+        color="blue"
+        size="small"
+        icon={<FaPlus />}
+        onClick={openModal}
+      >
         Add Room
       </Button>
 
       <Modal
         title="Add New Room"
-        visible={visible}
+        open={visible}
         onCancel={closeModal}
         onOk={handleOk}
         okText="Add Room"
@@ -43,20 +68,27 @@ export default function AddRoomModal({ onAdd, existingRoomNumbers }) {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{ is_available: true }}
+          initialValues={{ room_type: "STANDARD" }}
         >
           <Form.Item
             label="Room Number"
             name="room_number"
             rules={[
               { required: true, message: "Please input the room number!" },
-              {
-                pattern: /^[0-9]+$/,
-                message: "Room number must be a positive integer!",
-              },
             ]}
           >
             <Input placeholder="Enter room number" />
+          </Form.Item>
+
+          <Form.Item
+            label="Room Type"
+            name="room_type"
+            rules={[{ required: true, message: "Please select a room type!" }]}
+          >
+            <Select>
+              <Option value="STANDARD">Standard</Option>
+              <Option value="VIP">VIP</Option>
+            </Select>
           </Form.Item>
         </Form>
       </Modal>

@@ -15,7 +15,7 @@ public interface UserService {
     Optional<User> getUser(Integer id);
     boolean isExistsByUsernameOrEmail(String username, String email);
     User updateUser(User updateUser);
-    Page<User> getUserByRole(UserRole role, Pageable pageable);
+    List<User> getUserByRole(UserRole role);
     boolean isExists(Integer id);
     void delete(Integer id);
 }

@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUserByRole(UserRole role, Pageable pageable) {
-        return userRepository.findByRole(role, pageable);
+    public List<User> getUserByRole(UserRole role) {
+        return userRepository.findByRole(role);
     }
 
     @Override

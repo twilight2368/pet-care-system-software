@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardingBookingService {
+
     Optional<BoardingBooking> getBoardingBookingById(Integer id);
     BoardingBooking createBoardingBookingById(BoardingBooking boardingBooking);
     BoardingBooking updateBoardingBookingById(BoardingBooking boardingBooking);
@@ -16,4 +17,6 @@ public interface BoardingBookingService {
     List<BoardingBooking> getBoardingBookingByUserId(Integer userId);
     List<BoardingBooking> getBoardingBookingByStatus(ServiceStatus serviceStatus);
     List<BoardingBooking> getBoardingBookingHistory();
+
+    List<BoardingBooking> getBoardingBookingByRoomId(Integer id);
 }

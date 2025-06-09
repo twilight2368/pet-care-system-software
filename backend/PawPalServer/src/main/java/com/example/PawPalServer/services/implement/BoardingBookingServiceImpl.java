@@ -55,4 +55,10 @@ public class BoardingBookingServiceImpl implements BoardingBookingService {
     public List<BoardingBooking> getBoardingBookingHistory() {
         return boardingBookingRepository.findByStatusNot(ServiceStatus.PENDING);
     }
+
+    @Override
+    public List<BoardingBooking> getBoardingBookingByRoomId(Integer id) {
+        List<ServiceStatus> desiredStatuses = List.of(ServiceStatus.CONFIRMED, ServiceStatus.CHECKED_IN);
+        return boardingBookingRepository.findByRoom_RoomIdAndStatusIn(id, desiredStatuses);
+    }
 }

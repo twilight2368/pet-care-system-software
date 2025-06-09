@@ -1,85 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppointmentRowEditor from "../../../../components/center/staff/AppointmentRowEditor";
 import { Pagination } from "antd";
 import AppointmentFilter from "../../../../components/center/staff/AppointmentFilter";
-
-const vetList = [
-  {
-    user_id: 101,
-    full_name: "Dr. Emily Carter",
-  },
-  {
-    user_id: 102,
-    full_name: "Dr. James Li",
-  },
-  {
-    user_id: 103,
-    full_name: "Dr. Priya Sharma",
-  },
-  {
-    user_id: 104,
-    full_name: "Dr. Rafael Gómez",
-  },
-];
+import { getAppointmentToday, getUserByRole } from "../../../../apis/api";
+import { toast } from "react-toastify";
 
 export default function StaffTodayAppointmentPage() {
+  const [vets, setVets] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    getAppointmentToday()
+      .then((res) => {
+        setAppointments(res.data);
+      })
+      .catch(() => {
+        toast.error("Failed to get appointments");
+      });
+  }, []);
+
+  useEffect(() => {
+    getUserByRole("veterinarian".toUpperCase())
+      .then((res) => {
+        setVets(res.data);
+      })
+      .catch(() => {
+        toast.error("Failed to get veterinarians");
+      });
+  }, []);
+
   return (
-    <div className="w-full p-6 pt-0 ">
-      <div className="sticky top-0 mb-6 z-[1000]">
-        <AppointmentFilter />
-      </div>
+    <div className="w-full p-6 ">
       <div className="flex flex-col gap-3 mb-6">
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup.",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup.",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup.",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
-      </div>
-      <div className="w-full flex justify-center">
-        <Pagination defaultCurrent={1} total={1000} />
+        {appointments.map((appointment) => {
+          return <AppointmentRowEditor vets={vets} appointment={appointment} />;
+        })}
       </div>
     </div>
   );
