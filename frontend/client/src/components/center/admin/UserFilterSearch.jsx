@@ -11,7 +11,8 @@ import {
 
 const { Option } = Select;
 
-const roles = ["Admin", "Veterinarian", "Staff", "PetOwner"];
+// Use enum-style roles (uppercase strings)
+const roles = ["ADMIN", "VETERINARIAN", "STAFF", "PET_OWNER"];
 const lockStatusOptions = [
   { label: "Locked", value: true, icon: <LockOutlined /> },
   { label: "Unlocked", value: false, icon: <UnlockOutlined /> },
@@ -23,7 +24,7 @@ export default function UserSideFilter({ onApply, onReset }) {
   const [isLock, setIsLock] = React.useState(null);
 
   const handleApply = () => {
-    onApply?.({ search, role, is_lock: isLock });
+    onApply?.({ search, role, isLock }); // using isLock to match your data
   };
 
   const handleReset = () => {
@@ -41,7 +42,7 @@ export default function UserSideFilter({ onApply, onReset }) {
 
       <Input
         prefix={<SearchOutlined />}
-        placeholder="Search name, email..."
+        placeholder="Search by name, email..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         allowClear
@@ -57,7 +58,7 @@ export default function UserSideFilter({ onApply, onReset }) {
       >
         {roles.map((r) => (
           <Option key={r} value={r}>
-            {r}
+            {r.charAt(0) + r.slice(1).toLowerCase().replace("_", " ")}
           </Option>
         ))}
       </Select>
@@ -71,7 +72,7 @@ export default function UserSideFilter({ onApply, onReset }) {
         suffixIcon={<LockOutlined />}
       >
         {lockStatusOptions.map((item) => (
-          <Option key={item.value} value={item.value}>
+          <Option key={item.value.toString()} value={item.value}>
             {item.icon} {item.label}
           </Option>
         ))}

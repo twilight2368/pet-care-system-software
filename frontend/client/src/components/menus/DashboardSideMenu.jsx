@@ -45,10 +45,6 @@ const items = [
     key: "grooming",
     icon: <FaSprayCanSparkles />,
     label: "Grooming Services",
-    children: [
-      { key: "bath", label: "Bath & Cut", icon: <FaBath /> },
-      { key: "spa", label: "Pet Spa", icon: <MdOutlineSpa /> },
-    ],
   },
   {
     key: "veterinary",
@@ -94,11 +90,8 @@ const DashboardSideMenu = () => {
       case "appointments":
         navigate("/home/appointments");
         break;
-      case "bath":
-        navigate("/home/services/grooming/bath");
-        break;
-      case "spa":
-        navigate("/home/services/grooming/spa");
+      case "grooming":
+        navigate("/home/services/grooming");
         break;
       case "injection":
         navigate("/home/services/vet/injection");

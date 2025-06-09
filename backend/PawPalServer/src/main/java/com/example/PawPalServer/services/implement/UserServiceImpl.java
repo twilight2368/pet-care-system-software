@@ -39,13 +39,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User updateUser) {
-        return userRepository.save(updateUser);
+    public boolean isExistsByUsernameOrEmail(String username, String email) {
+        return userRepository.existsByUsername(username) || userRepository.existsByEmail(email);
     }
 
     @Override
-    public Page<User> getUserByRole(UserRole role, Pageable pageable) {
-        return userRepository.findByRole(role, pageable);
+    public User updateUser(User updateUser) {
+        User existingUser = userRepository.findById(updateUser.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existingUser.setUsername(updateUser.getUsername());
+        existingUser.setEmail(updateUser.getEmail());
+        existingUser.setPhone(updateUser.getPhone());
+        existingUser.setFullName(updateUser.getFullName());
+        existingUser.setRole(updateUser.getRole());
+        existingUser.setSpecialization(updateUser.getSpecialization());
+        existingUser.setIsLock(updateUser.getIsLock());
+
+        return userRepository.save(existingUser);
+    }
+
+    @Override
+    public List<User> getUserByRole(UserRole role) {
+        return userRepository.findByRole(role);
     }
 
     @Override

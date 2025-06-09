@@ -5,19 +5,24 @@ import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { IoIosSettings } from "react-icons/io";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { clearUserInfo } from "../../app/store/UserSlice";
+
 export default function DashboardHeadMenu() {
   const navigate = useNavigate();
-  const notify = () =>
-    toast("Logging out...!", {
-      position: "top-center",
-      type: "error",
-    });
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(clearUserInfo());
+    navigate("/");
+    toast.success("LOGOUT SUCCESSFUL");
+  };
 
   const handleClick = ({ key }) => {
     if (key === "settings") {
       navigate("/home/settings");
     } else if (key === "logout") {
-      notify();
+      logout()
     }
   };
 

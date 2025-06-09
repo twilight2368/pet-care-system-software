@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, DatePicker, Button, Select } from "antd";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import { createAppointment, getPetByUser } from "../../apis/api";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -23,13 +25,58 @@ const statusOptions = [
   "Cancelled",
 ];
 
-export default function VetForm({ isVetMaking = false, pet_id = null }) {
+export default function VetForm({
+  isVetMaking = false,
+  pet = null,
+  enroll_for,
+}) {
+  const [pets, setPets] = useState([]);
   const [form] = Form.useForm();
+  const user_id = useSelector((state) => state.user.user_id);
+  const user = useSelector((state) => state.user.user_info);
+
+  useEffect(() => {
+    if (!isVetMaking) {
+      getPetByUser(user_id)
+        .then((res) => {
+          setPets(res.data);
+        })
+        .catch(() => {
+          toast.error("Failed to fetch pets data");
+        });
+    }
+  }, []);
 
   const handleSubmit = (values) => {
-    console.log("Vaccination Appointment Data:", values);
-    toast.success("Vaccination appointment scheduled!");
-    form.resetFields();
+    let selectedPet = null;
+
+    if (!pet) {
+      selectedPet = pets.find((pet) => pet.petId === values.pet);
+    }
+
+    const petObj = pet || selectedPet;
+
+    const payload = {
+      ...values,
+      pet: petObj,
+      owner: petObj?.owner,
+      veterinarian: isVetMaking ? user : null,
+      appointmentType: enroll_for || values?.appointmentType,
+      appointmentDate: values.appointmentDate.toISOString(),
+    };
+
+    console.log("Final Appointment Payload:", payload);
+    createAppointment(payload)
+      .then((res) => {
+        console.log("====================================");
+        console.log("Appointment made:", res.data);
+        console.log("====================================");
+        toast.success("Vaccination appointment scheduled!");
+        form.resetFields();
+      })
+      .catch(() => {
+        toast.error("Failed to make appointment");
+      });
   };
 
   return (
@@ -38,29 +85,31 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
       layout="vertical"
       onFinish={handleSubmit}
       initialValues={{
-        appointment_type: "Vaccination",
+        appointmentType: "Vaccination",
         status: "Pending",
       }}
     >
       {/* Pet Selector */}
-      {!pet_id && (
+      {!pet && !isVetMaking && (
         <Form.Item
-          name="pet_id"
+          name="pet"
           label="Select Pet"
           rules={[{ required: true, message: "Please select a pet" }]}
         >
           <Select placeholder="Choose a pet">
-            <Option value={1}>Bella</Option>
-            <Option value={2}>Rocky</Option>
-            {/* Replace with dynamic pet list */}
+            {pets.map((p) => (
+              <Option key={p.petId} value={p.petId}>
+                {p.name}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       )}
 
-      {/* Appointment Type (visible to vet) */}
+      {/* Appointment Type */}
       {isVetMaking && (
         <Form.Item
-          name="appointment_type"
+          name="appointmentType"
           label="Appointment Type"
           rules={[
             { required: true, message: "Please select appointment type" },
@@ -68,7 +117,7 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
         >
           <Select placeholder="Choose type">
             {appointmentTypes.map((type) => (
-              <Option key={type} value={type}>
+              <Option key={type.toUpperCase()} value={type.toUpperCase()}>
                 {type}
               </Option>
             ))}
@@ -76,9 +125,9 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
         </Form.Item>
       )}
 
-      {/* Appointment Date */}
+      {/* Date */}
       <Form.Item
-        name="appointment_date"
+        name="appointmentDate"
         label="Date & Time"
         rules={[{ required: true, message: "Please choose a date and time" }]}
       >
@@ -95,12 +144,19 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
         />
       </Form.Item>
 
-      {/* Internal Notes */}
-      <Form.Item name="notes" label="Notes (optional)">
+      {/* Notes from Client */}
+      <Form.Item name="notesFromClient" label="Notes (optional)">
         <TextArea rows={3} placeholder="Include any additional info..." />
       </Form.Item>
 
-      {/* Appointment Status (visible to vet) */}
+      {/* Vet Notes */}
+      {isVetMaking && (
+        <Form.Item name="notes" label="Internal Notes (optional)">
+          <TextArea rows={3} placeholder="Vet notes..." />
+        </Form.Item>
+      )}
+
+      {/* Status */}
       {isVetMaking && (
         <Form.Item
           name="status"
@@ -109,7 +165,7 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
         >
           <Select placeholder="Select status">
             {statusOptions.map((status) => (
-              <Option key={status} value={status}>
+              <Option key={status.toUpperCase()} value={status.toUpperCase()}>
                 {status}
               </Option>
             ))}
@@ -117,7 +173,6 @@ export default function VetForm({ isVetMaking = false, pet_id = null }) {
         </Form.Item>
       )}
 
-      {/* Submit Button */}
       <Form.Item>
         <Button type="primary" htmlType="submit" className="w-full">
           Submit Appointment

@@ -1,40 +1,45 @@
 import React from "react";
 import { Button, Table, Tag } from "antd";
 import dayjs from "dayjs";
+import {
+  ServiceStatusTag,
+  GroomingServiceTypeTag,
+  RecurrencePatternTag,
+} from "../../components/tags/CustomTags";
 
 export default function GroomingServiceList({ data }) {
   const columns = [
     {
       title: "Service Date",
-      dataIndex: "service_date",
-      key: "service_date",
-      render: (date) => dayjs(date).format("DD/MM/YYYY HH:mm"),
+      dataIndex: "serviceDate",
+      key: "serviceDate",
+      render: (date) => dayjs(date).add(7, "hour").format("DD/MM/YYYY HH:mm"),
     },
     {
       title: "Pet",
-      dataIndex: "pet_id",
-      key: "pet_id",
-      render: () => (
-        <>
-          <Tag>Pet name</Tag>
-        </>
-      ),
+      dataIndex: "pet",
+      key: "pet",
+      render: (pet) => <Tag color="blue">{pet.name}</Tag>,
+    },
+    {
+      title: "Service Type",
+      dataIndex: "serviceType",
+      key: "serviceType",
+      render: (type) => <GroomingServiceTypeTag value={type} />,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag color={status === "Completed" ? "green" : "orange"}>{status}</Tag>
-      ),
+      render: (status) => <ServiceStatusTag value={status} />,
     },
     {
       title: "Recurring",
-      dataIndex: "is_recurring",
-      key: "is_recurring",
-      render: (recurring, record) =>
-        recurring ? (
-          <Tag color="blue">{record.recurrence_pattern}</Tag>
+      dataIndex: "recurrencePattern",
+      key: "recurrencePattern",
+      render: (pattern) =>
+        pattern ? (
+          <RecurrencePatternTag value={pattern} />
         ) : (
           <Tag>One-time</Tag>
         ),
@@ -44,25 +49,25 @@ export default function GroomingServiceList({ data }) {
       dataIndex: "notes",
       key: "notes",
       render: (text) => (
-        <span className=" text-xs text-gray-400">{text || "-"}</span>
+        <span className="text-xs text-gray-400">{text || "-"}</span>
       ),
       ellipsis: true,
     },
     {
       title: "Notes from you",
-      dataIndex: "note_from_client",
-      key: "note_from_client",
+      dataIndex: "notesFromClient",
+      key: "notesFromClient",
       render: (text) => (
-        <span className=" text-xs text-gray-400">{text || "-"}</span>
+        <span className="text-xs text-gray-400">{text || "-"}</span>
       ),
       ellipsis: true,
     },
     {
-      dataIndex: "is_recurring",
-      key: "is_recurring",
+      title: "Action",
+      key: "action",
       render: () => (
         <div className="flex justify-center items-center">
-          <Button type="primary" variant="filled" color="danger">
+          <Button type="primary" danger>
             Cancel
           </Button>
         </div>
@@ -75,7 +80,7 @@ export default function GroomingServiceList({ data }) {
       <Table
         columns={columns}
         dataSource={data}
-        rowKey="grooming_id"
+        rowKey="groomingId"
         pagination={{ pageSize: 10 }}
       />
     </div>

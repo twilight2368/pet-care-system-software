@@ -55,6 +55,12 @@ public class BoardingBookingController {
         return new ResponseEntity<>( result.stream().map(boardingBookingMapper::mapToDto).toList(), HttpStatus.OK);
     }
 
+    @GetMapping("/api/boarding-room/{id}")
+    public ResponseEntity<List<BoardingBookingDto>> getBoardingBookingByRoomId(@PathVariable("id") Integer id){
+        List<BoardingBooking> result = boardingBookingService.getBoardingBookingByRoomId(id);
+        return new ResponseEntity<>( result.stream().map(boardingBookingMapper::mapToDto).toList(), HttpStatus.OK);
+    }
+
     @GetMapping("/api/boarding-status")
     public ResponseEntity<List<BoardingBookingDto>> getBoardingBookingByUserId(@RequestParam("status") ServiceStatus status){
         List<BoardingBooking> result = boardingBookingService.getBoardingBookingByStatus(status);

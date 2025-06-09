@@ -43,7 +43,7 @@ public class BoardingBookingServiceImpl implements BoardingBookingService {
 
     @Override
     public List<BoardingBooking> getBoardingBookingByUserId(Integer userId) {
-        return List.of();
+        return  boardingBookingRepository.findByOwner_UserId(userId);
     }
 
     @Override
@@ -54,5 +54,11 @@ public class BoardingBookingServiceImpl implements BoardingBookingService {
     @Override
     public List<BoardingBooking> getBoardingBookingHistory() {
         return boardingBookingRepository.findByStatusNot(ServiceStatus.PENDING);
+    }
+
+    @Override
+    public List<BoardingBooking> getBoardingBookingByRoomId(Integer id) {
+        List<ServiceStatus> desiredStatuses = List.of(ServiceStatus.CONFIRMED, ServiceStatus.CHECKED_IN);
+        return boardingBookingRepository.findByRoom_RoomIdAndStatusIn(id, desiredStatuses);
     }
 }

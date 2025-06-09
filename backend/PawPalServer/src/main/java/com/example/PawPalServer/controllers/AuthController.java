@@ -8,6 +8,8 @@ import com.example.PawPalServer.domains.entities.User;
 import com.example.PawPalServer.mappers.interfaces.Mapper;
 import com.example.PawPalServer.services.interfaces.AuthService;
 import com.example.PawPalServer.services.interfaces.UserService;
+import com.example.PawPalServer.utils.BcryptUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+@Slf4j
 @RestController
 public class AuthController {
 
@@ -41,9 +44,15 @@ public class AuthController {
                                 .role(registerRequest.getRole())
                                 .build();
         User newUser = userMapper.mapToEntity(userDto);
-        User savedUser = userService.createUser(newUser);
-        UserDto savedUserDto = userMapper.mapToDto(savedUser);
-        return new ResponseEntity<>(savedUserDto,HttpStatus.CREATED);
+
+        if (userService.isExistsByUsernameOrEmail(newUser.getUsername(), newUser.getEmail())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            newUser.setPasswordHash(BcryptUtils.hashPassword(registerRequest.getPassword()));
+            User savedUser = userService.createUser(newUser);
+            UserDto savedUserDto = userMapper.mapToDto(savedUser);
+            return new ResponseEntity<>(savedUserDto,HttpStatus.CREATED);
+        }
     }
 
     @PostMapping("/api/auth/login")

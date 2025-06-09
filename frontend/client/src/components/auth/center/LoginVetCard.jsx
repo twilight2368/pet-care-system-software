@@ -2,20 +2,61 @@ import React from "react";
 import { Form, Input, Button, Card, Select } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
-
+import { loginPawPal } from "../../../apis/api";
+import { useDispatch } from "react-redux";
+import {
+  clearUserInfo,
+  setToken,
+  setUserId,
+  setUserInfo,
+} from "../../../app/store/UserSlice";
+import { useNavigate } from "react-router";
 const { Option } = Select;
 
-export default function LoginVetCard({ onLogin }) {
-  const onFinish = (values) => {
-    if (values.role === "PetOwner") {
-      toast.error("PetOwners are not allowed to log in here.");
-      return;
-    }
+export default function LoginVetCard() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    // Handle login logic here
-    console.log("Logging in:", values);
-    toast.success(`Logged in as ${values.role}`);
-    onLogin?.(values); // Optional callback
+  const onFinish = (values) => {
+    loginPawPal(values)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+
+        const user_res = res.data;
+        dispatch(setUserId(user_res?.user?.userId || ""));
+        dispatch(setUserInfo(user_res?.user || null));
+        dispatch(setToken(user_res?.jwt?.token || ""));
+
+        const role = user_res?.user?.role;
+
+        switch (role) {
+          case "VETERINARIAN":
+            toast.success(`Logged in as ${role}`);
+            navigate("vet");
+            break;
+          case "STAFF":
+            toast.success(`Logged in as ${role}`);
+            navigate("staff");
+            break;
+          case "ADMIN":
+            toast.success(`Logged in as ${role}`);
+            navigate("admin");
+            break;
+          default:
+            toast.error("Unknown role");
+            dispatch(clearUserInfo());
+            navigate("/");
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log(err);
+        console.log("====================================");
+        toast.error("SOMETHING WENT WRONG!!!");
+      });
   };
 
   return (
@@ -28,8 +69,10 @@ export default function LoginVetCard({ onLogin }) {
       >
         <Form.Item
           name="username"
-          label="Username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          label="Username Or Email"
+          rules={[
+            { required: true, message: "Please input your username or email!" },
+          ]}
         >
           <Input prefix={<UserOutlined />} placeholder="Username" />
         </Form.Item>
@@ -40,18 +83,6 @@ export default function LoginVetCard({ onLogin }) {
           rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-        </Form.Item>
-
-        <Form.Item
-          name="role"
-          label="Role"
-          rules={[{ required: true, message: "Please select a role!" }]}
-        >
-          <Select>
-            <Option value="Veterinarian">Veterinarian</Option>
-            <Option value="Admin">Admin</Option>
-            <Option value="Staff">Staff</Option>
-          </Select>
         </Form.Item>
 
         <Form.Item>

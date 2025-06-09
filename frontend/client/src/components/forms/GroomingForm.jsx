@@ -1,78 +1,93 @@
-import React from "react";
-import { Form, Input, DatePicker, Button, Switch, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, DatePicker, Button, Select } from "antd";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import { createGroomingServiceBooking, getPetByUser } from "../../apis/api";
+import { data } from "autoprefixer";
+
+const { Option } = Select;
 
 export default function GroomingForm() {
   const [form] = Form.useForm();
+  const [pets, setPets] = useState([]);
 
-  const pets = [
-    { id: 1, name: "Fluffy" },
-    { id: 2, name: "Bella" },
-    { id: 3, name: "Max" },
-  ];
+  const user_id = useSelector((state) => state.user.user_id);
+  const user = useSelector((state) => state.user.user_info);
+
+  useEffect(() => {
+    getPetByUser(user_id)
+      .then((res) => {
+        setPets(res.data);
+      })
+      .catch(() => {
+        toast.error("Failed getting pet info");
+      });
+  }, [user_id, user]);
 
   const handleFinish = async (values) => {
-    const payload = {
-      pet_id: values.pet_id,
-      owner_id: values.owner_id,
-      staff_id: values.staff_id,
-      service_date: values.service_date.format("YYYY-MM-DD HH:mm:ss"),
-      service_type: "BathAndTrim",
-      is_recurring: values.is_recurring,
-      recurs_until: values.recurs_until
-        ? values.recurs_until.format("YYYY-MM-DD")
-        : null,
-      notes: values.notes || "",
-      status: "Pending",
+    // Log the values for now
+    // If you need the full pet object:
+    const selectedPet = pets.find((pet) => pet.petId === values.pet);
+    console.log("Selected pet:", selectedPet);
+    values = {
+      ...values,
+      pet: selectedPet,
+      owner: user,
+      serviceDate: values.serviceDate.toISOString(),
     };
 
-    // Replace this with your actual API call
-    console.log("Submitting grooming service:", payload);
-
-    toast.success("Bath & Trim service enrolled successfully!");
-    form.resetFields();
+    createGroomingServiceBooking(values)
+      .then((res) => {
+        toast.success("Enroll successfully");
+        form.resetFields();
+      })
+      .catch(() => {
+        toast.error("Something went wrong!!!");
+      });
   };
 
   return (
-    <div className="w-full mx-auto  bg-white">
+    <div className="w-full mx-auto bg-white p-6 rounded shadow">
       <Form
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        initialValues={{ is_recurring: false }}
+        initialValues={{
+          recurrencePattern: "NONE",
+          serviceType: "BATH_AND_TRIM",
+        }}
       >
         <Form.Item
-          name="pet_id"
+          name="pet"
           label="Select Pet"
           rules={[{ required: true, message: "Please select your pet" }]}
         >
           <Select placeholder="Choose your pet">
             {pets.map((pet) => (
-              <Option key={pet.id} value={pet.id}>
-                {pet.name}
+              <Option key={pet.petId} value={pet.petId}>
+                {pet?.name}
               </Option>
             ))}
           </Select>
         </Form.Item>
 
         <Form.Item
-          name="service_date"
+          name="serviceDate"
           label="Service Date & Time"
           rules={[{ required: true, message: "Please pick a date and time" }]}
         >
           <DatePicker
-            needConfirm
             showTime={{
               format: "HH:mm",
               defaultValue: dayjs("00:00", "HH:mm"),
               showSecond: false,
               hourStep: 1,
               minuteStep: 5,
-              hideDisabledOptions: true, // This hides disabled options
+              hideDisabledOptions: true,
               disabledHours: () => [
-                ...Array(6).keys(), // Disable 0-6
-                ...Array.from({ length: 6 }, (_, i) => i + 18), // Disable 18-23
+                ...Array(6).keys(), // Disable hours 0-5
+                ...Array.from({ length: 6 }, (_, i) => i + 18), // Disable hours 18-23
               ],
             }}
             format="YYYY-MM-DD HH:mm"
@@ -80,19 +95,30 @@ export default function GroomingForm() {
           />
         </Form.Item>
 
-        <Form.Item name="notes" label="Notes (Optional)">
+        <Form.Item
+          name="serviceType"
+          label="Service Type"
+          rules={[{ required: true, message: "Please select a service type" }]}
+        >
+          <Select>
+            <Option value="BATH_AND_TRIM">Bath and Trim</Option>
+            <Option value="SPA">Spa</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="notesFromClient" label="Notes (Optional)">
           <Input.TextArea rows={3} placeholder="Additional instructions..." />
         </Form.Item>
 
         <Form.Item
-          name="recurrence_pattern"
+          name="recurrencePattern"
           label="Recurrence"
           rules={[{ required: true, message: "Please select recurrence" }]}
         >
-          <Select defaultValue={"None"} placeholder="Select recurrence">
-            <Option value="None">None</Option>
-            <Option value="Weekly">Weekly</Option>
-            <Option value="Monthly">Monthly</Option>
+          <Select placeholder="Select recurrence">
+            <Option value="NONE">None</Option>
+            <Option value="WEEKLY">Weekly</Option>
+            <Option value="MONTHLY">Monthly</Option>
           </Select>
         </Form.Item>
 

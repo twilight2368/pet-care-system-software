@@ -20,6 +20,6 @@ public class UserMapper implements Mapper<UserDto, User> {
 
     @Override
     public User mapToEntity(UserDto userDto) {
-        return null;
+        return modelMapper.map(userDto, User.class);
     }
 }

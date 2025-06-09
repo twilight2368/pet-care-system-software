@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import LogoImage from "../../assets/paw.png";
 import "./home.css";
 import { Button } from "antd";
 import HomePageHeader from "../../components/headers/HomePageHeader";
 import { useNavigate } from "react-router";
+import { getHelloPawPal } from "../../apis/api";
 export default function HomePage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getHelloPawPal()
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log(err);
+        console.log("====================================");
+      });
+  }, []);
+
   return (
     <>
       <div className=" min-h-screen w-screen bg-black home-background">

@@ -1,17 +1,8 @@
 import React from "react";
-import {
-  Card,
-  Avatar,
-  Image,
-  Typography,
-  Tag,
-  Divider,
-  Alert,
-  Descriptions,
-} from "antd";
-import { EyeOutlined, CameraOutlined } from "@ant-design/icons";
+import { Image, Typography, Tag, Divider, Alert, Descriptions } from "antd";
 import { AlertOutlined } from "@ant-design/icons";
-import PlaceholderImage from "../../assets/Placeholder.png";
+import PlaceholderImage_1 from "../../assets/cute-dog-with-sunglasses-posing-portrait-generative-ai.jpg";
+import PlaceholderImage_2 from "../../assets/adorable-looking-kitten-with-sunglasses.jpg";
 
 const { Title, Text } = Typography;
 
@@ -26,14 +17,14 @@ export default function PetProfileCard({ pet }) {
               level={3}
               className="m-0 logo flex items-center gap-2 text-blue-700"
             >
-              🐾 {pet.name}
+              🐾 {pet?.name}
             </Title>
           </div>
 
           {/* Pet Details */}
           <Descriptions size="middle" column={1} bordered>
             <Descriptions.Item label="🐕 Breed">
-              {pet.breed || (
+              {pet?.breed || (
                 <Text type="secondary" italic>
                   Not specified
                 </Text>
@@ -41,7 +32,7 @@ export default function PetProfileCard({ pet }) {
             </Descriptions.Item>
 
             <Descriptions.Item label="🎨 Color">
-              {pet.color || (
+              {pet?.color || (
                 <Text type="secondary" italic>
                   Not specified
                 </Text>
@@ -49,7 +40,7 @@ export default function PetProfileCard({ pet }) {
             </Descriptions.Item>
 
             <Descriptions.Item label="⚧ Gender">
-              {pet.gender || (
+              {pet?.gender || (
                 <Text type="secondary" italic>
                   Not specified
                 </Text>
@@ -57,9 +48,9 @@ export default function PetProfileCard({ pet }) {
             </Descriptions.Item>
 
             <Descriptions.Item label="🎂 Age">
-              {pet.age != null ? (
+              {pet?.age != null ? (
                 <span>
-                  {pet.age} {pet.age === 1 ? "year" : "years"} old
+                  {pet?.age} {pet?.age === 1 ? "year" : "years"} old
                 </span>
               ) : (
                 <Text type="secondary" italic>
@@ -72,9 +63,8 @@ export default function PetProfileCard({ pet }) {
 
         <div className="flex justify-center items-center">
           <Image
-            src={pet?.photo_url || PlaceholderImage}
-            alt={`Photo of ${pet.name}`}
-            fallback={PlaceholderImage}
+            src={pet?.petId % 2 ? PlaceholderImage_1 : PlaceholderImage_2}
+            alt={`Photo of ${pet?.name}`}
             style={{
               height: "250px",
               width: "auto",
@@ -88,7 +78,7 @@ export default function PetProfileCard({ pet }) {
 
       <div className="text-sm p-4 mb-3 space-y-3">
         <div>
-          {pet.is_alert && (
+          {pet?.isAlert && (
             <Alert
               message="Health Condition Alert"
               type="error"
@@ -100,9 +90,9 @@ export default function PetProfileCard({ pet }) {
         </div>
         <div className="mt-6">
           <Descriptions size="small" column={1} bordered>
-            <Descriptions.Item label={<span>⚖️ Weight</span>} span={1}>
-              {pet.weight_kg ? (
-                `${pet.weight_kg} kg`
+            <Descriptions.Item label="⚖️ Weight" span={1}>
+              {pet?.weightKg ? (
+                `${pet?.weightKg} kg`
               ) : (
                 <Text type="secondary" italic>
                   Not recorded
@@ -110,9 +100,9 @@ export default function PetProfileCard({ pet }) {
               )}
             </Descriptions.Item>
 
-            <Descriptions.Item label={<span>📏 Height</span>} span={1}>
-              {pet.height_cm ? (
-                `${pet.height_cm} cm`
+            <Descriptions.Item label="📏 Height" span={1}>
+              {pet?.heightCm ? (
+                `${pet?.heightCm} cm`
               ) : (
                 <Text type="secondary" italic>
                   Not recorded
@@ -120,30 +110,30 @@ export default function PetProfileCard({ pet }) {
               )}
             </Descriptions.Item>
 
-            <Descriptions.Item label={<span>🩸 Blood Type</span>} span={1}>
-              {pet.blood_type || (
+            <Descriptions.Item label="🩸 Blood Type" span={1}>
+              {pet?.bloodType || (
                 <Text type="secondary" italic>
                   Unknown
                 </Text>
               )}
             </Descriptions.Item>
 
-            <Descriptions.Item label={<span>✂️ Spayed/Neutered</span>} span={1}>
-              <Tag color={pet.spayed_neutered ? "green" : "default"}>
-                {pet.spayed_neutered ? "Yes" : "No"}
+            <Descriptions.Item label="✂️ Spayed/Neutered" span={1}>
+              <Tag color={pet?.spayedNeutered ? "green" : "default"}>
+                {pet?.spayedNeutered ? "Yes" : "No"}
               </Tag>
             </Descriptions.Item>
 
-            <Descriptions.Item label={<span>🔗 Microchipped</span>} span={1}>
-              <Tag color={pet.microchipped ? "blue" : "default"}>
-                {pet.microchipped ? "Yes" : "No"}
+            <Descriptions.Item label="🔗 Microchipped" span={1}>
+              <Tag color={pet?.microchipped ? "blue" : "default"}>
+                {pet?.microchipped ? "Yes" : "No"}
               </Tag>
             </Descriptions.Item>
 
-            {pet.health_notes && (
-              <Descriptions.Item label={<span>📋 Health Notes</span>} span={1}>
+            {pet?.healthNotes && (
+              <Descriptions.Item label="📋 Health Notes" span={1}>
                 <Text type="secondary" className="italic">
-                  {pet.health_notes}
+                  {pet?.healthNotes}
                 </Text>
               </Descriptions.Item>
             )}

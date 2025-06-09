@@ -1,86 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppointmentRowEditor from "../../../../components/center/staff/AppointmentRowEditor";
 import { Button, Pagination } from "antd";
-import AppointmentFilter from "../../../../components/center/staff/AppointmentFilter";
-import { IoReload } from "react-icons/io5";
-
-const vetList = [
-  {
-    user_id: 101,
-    full_name: "Dr. Emily Carter",
-  },
-  {
-    user_id: 102,
-    full_name: "Dr. James Li",
-  },
-  {
-    user_id: 103,
-    full_name: "Dr. Priya Sharma",
-  },
-  {
-    user_id: 104,
-    full_name: "Dr. Rafael Gómez",
-  },
-];
+import { toast } from "react-toastify";
+import { getNewAppointment, getUserByRole } from "../../../../apis/api";
 
 export default function StaffNewAppointmentPage() {
+  const [vets, setVets] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  const [size, setSize] = useState(5);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    getNewAppointment(page - 1, size)
+      .then((res) => {
+        setAppointments(res.data?.content || []);
+        setTotal(res.data?.page?.totalElements || 0);
+      })
+      .catch(() => {
+        toast.error("Failed to get appointments");
+      });
+  }, [page, size]);
+
+  useEffect(() => {
+    getUserByRole("veterinarian".toUpperCase())
+      .then((res) => {
+        setVets(res.data);
+      })
+      .catch(() => {
+        toast.error("Failed to get veterinarians");
+      });
+  }, []);
+
   return (
-    <div className="w-full p-6 pt-0 ">
-      <div className="sticky top-0 mb-6 z-[1000]">
-        <AppointmentFilter />
-      </div>
+    <div className="w-full p-6">
       <div className="flex flex-col gap-3 mb-6">
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup. 1",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup.1",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
-        <AppointmentRowEditor
-          appointment={{
-            appointment_id: 1,
-            pet_id: 12,
-            owner_id: 5,
-            veterinarian_id: 102,
-            appointment_date: "2025-05-21T10:00:00",
-            appointment_type: "Checkup",
-            status: "Pending",
-            notes: "Pet needs blood test before checkup.1",
-            notes_from_client: "Please be gentle—pet gets anxious.",
-          }}
-          vets={vetList}
-          onSave={(updated) => console.log("Updated appointment:", updated)}
-          onCancel={() => console.log("Edit cancelled")}
-        />
+        {appointments.map((appointment) => {
+          return (
+            <AppointmentRowEditor
+              key={appointment.appointmentId}
+              vets={vets}
+              appointment={appointment}
+            />
+          );
+        })}
       </div>
       <div className="w-full flex justify-center">
-        <Pagination defaultCurrent={1} total={1000} />
+        <div className="w-full flex justify-center mt-4">
+          <Pagination
+            current={page}
+            pageSize={size}
+            total={total}
+            showSizeChanger
+            onChange={(newPage, newSize) => {
+              setPage(newPage);
+              setSize(newSize);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

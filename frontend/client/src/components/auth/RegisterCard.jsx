@@ -1,11 +1,32 @@
 import React from "react";
 import { Form, Input, Button, Card } from "antd";
-import { Link } from "react-router";
-
+import { Link, useNavigate } from "react-router";
+import { registerPawPal } from "../../apis/api";
+import { toast } from "react-toastify";
 const RegisterCard = () => {
+  const navigate = useNavigate();
+
   const onFinish = (values) => {
-    console.log("Register Info:", values);
-    // Handle registration logic here
+    const { confirm, ...formData } = values;
+    const updatedValues = {
+      ...formData,
+      specialization: "", // Set default or dynamic value
+      role: "PET_OWNER",
+    };
+
+    console.log("Register Info:", updatedValues);
+
+    registerPawPal(updatedValues)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        toast.success("Registered successfully");
+        navigate("/login");
+      })
+      .catch((err) => {
+        toast.error("Something went wrong!!!");
+      });
   };
 
   return (
@@ -29,7 +50,7 @@ const RegisterCard = () => {
 
         <Form.Item
           label="Full Name"
-          name="fullname"
+          name="fullName"
           rules={[{ required: true, message: "Please enter your full name!" }]}
         >
           <Input placeholder="John Doe" />

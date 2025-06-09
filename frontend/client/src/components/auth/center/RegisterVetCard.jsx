@@ -9,16 +9,27 @@ import {
   AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import { registerPawPal } from "../../../apis/api";
 
 const { Option } = Select;
 
-export default function RegisterVetCard({ onRegister }) {
+export default function RegisterVetCard({ setIsRegistering }) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
     console.log("Registering user:", values);
-    toast.success(`Registered as ${values.role}`);
-    onRegister?.(values); // Optional callback
+
+    registerPawPal(values)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        toast.success(`Registered as ${res.data?.role}`);
+        setIsRegistering(false);
+      })
+      .catch(() => {
+        toast.error("Register failed");
+      });
   };
 
   return (
@@ -27,10 +38,10 @@ export default function RegisterVetCard({ onRegister }) {
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        initialValues={{ role: "Veterinarian" }}
+        initialValues={{ role: "VETERINARIAN" }}
       >
         <Form.Item
-          name="full_name"
+          name="fullName"
           label="Full Name"
           rules={[{ required: true, message: "Please enter full name" }]}
         >
@@ -72,7 +83,10 @@ export default function RegisterVetCard({ onRegister }) {
           <Form.Item
             name="phone"
             label="Phone"
-            rules={[{ required: true, message: "Please enter phone number" }]}
+            rules={[
+              { required: true, message: "Please enter phone number" },
+              { pattern: /^\d{9,12}$/, message: "Enter a valid phone number" },
+            ]}
             className="w-1/2"
           >
             <Input placeholder="Phone Number" prefix={<PhoneOutlined />} />
@@ -87,9 +101,9 @@ export default function RegisterVetCard({ onRegister }) {
             className="w-1/3"
           >
             <Select>
-              <Option value="Veterinarian">Veterinarian</Option>
-              <Option value="Staff">Staff</Option>
-              <Option value="Admin">Admin</Option>
+              <Option value="VETERINARIAN">Veterinarian</Option>
+              <Option value="STAFF">Staff</Option>
+              <Option value="ADMIN">Admin</Option>
             </Select>
           </Form.Item>
           <Form.Item

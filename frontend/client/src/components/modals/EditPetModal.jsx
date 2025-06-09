@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, InputNumber, Select, Upload, Button, Modal } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import { updatePetById } from "../../apis/api";
 
 const { Option } = Select;
 
@@ -18,14 +19,22 @@ export default function EditPetModal({ pet }) {
     const updatedPet = {
       ...pet,
       ...values,
-      photo: fileList[0]?.originFileObj || pet.photo_url,
+      photoUrl: fileList[0]?.originFileObj || pet?.photoUrl,
     };
 
-    console.log("====================================");
-    console.log(updatedPet);
-    console.log("====================================");
-    toast.success("Pet information updated!");
-    setOpen(false);
+    // console.log("====================================");
+    // console.log(updatedPet);
+    // console.log("====================================");
+    updatePetById(pet.petId, updatedPet)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        toast.success("Pet information updated!");
+      })
+      .catch(() => {
+        toast.error("Failed to update pet");
+      });
   };
 
   return (
@@ -35,11 +44,7 @@ export default function EditPetModal({ pet }) {
       </Button>
 
       <Modal
-        title={
-          <>
-            <div className="logo text-xl mb-6">Edit pet information</div>
-          </>
-        }
+        title={<div className="logo text-xl mb-6">Edit pet information</div>}
         open={open}
         closable
         onCancel={() => setOpen(false)}
@@ -51,11 +56,11 @@ export default function EditPetModal({ pet }) {
           onFinish={handleFinish}
           variant="filled"
           initialValues={{
-            name: pet.name,
-            age: pet.age,
-            gender: pet.gender,
-            breed: pet.breed,
-            color: pet.color,
+            name: pet?.name,
+            age: pet?.age,
+            gender: pet?.gender,
+            breed: pet?.breed,
+            color: pet?.color,
           }}
         >
           <Form.Item
@@ -72,9 +77,9 @@ export default function EditPetModal({ pet }) {
 
           <Form.Item label="Gender" name="gender">
             <Select>
-              <Option value="Male">Male</Option>
-              <Option value="Female">Female</Option>
-              <Option value="Unknown">Unknown</Option>
+              <Option value="MALE">Male</Option>
+              <Option value="FEMALE">Female</Option>
+              <Option value="UNKNOWN">Unknown</Option>
             </Select>
           </Form.Item>
 
@@ -93,6 +98,7 @@ export default function EditPetModal({ pet }) {
               onChange={handleUploadChange}
               maxCount={1}
               listType="picture"
+              disabled
             >
               <Button icon={<UploadOutlined />}>Upload Photo</Button>
             </Upload>

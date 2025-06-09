@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Select,
@@ -8,6 +8,7 @@ import {
   Divider,
   Space,
   Tag,
+  Skeleton,
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -21,75 +22,78 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   ExclamationCircleOutlined,
-  FileAddFilled,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { FaPaw } from "react-icons/fa6";
 import { FaRegSave } from "react-icons/fa";
-import { RiCalendar2Line } from "react-icons/ri";
 import VetModal from "../../../components/modals/VetModal";
-import { useNavigate, useParams } from "react-router";
 import MedicalRecordModal from "../../../components/center/vet/MedicalRecordModal";
 import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router";
+import { getAppointmentById, updateAppointment } from "../../../apis/api";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-// Status options with colors and icons
 const statusConfig = {
-  Pending: { color: "orange", icon: <ClockCircleOutlined /> },
-  Confirmed: { color: "blue", icon: <CheckCircleOutlined /> },
-  Completed: { color: "green", icon: <CheckCircleOutlined /> },
-  CheckedIn: { color: "cyan", icon: <UserOutlined /> },
-  CheckedOut: { color: "purple", icon: <UserOutlined /> },
-  Cancelled: { color: "red", icon: <ExclamationCircleOutlined /> },
+  PENDING: { color: "orange", icon: <ClockCircleOutlined /> },
+  CONFIRMED: { color: "blue", icon: <CheckCircleOutlined /> },
+  COMPLETED: { color: "green", icon: <CheckCircleOutlined /> },
+  CHECKED_IN: { color: "cyan", icon: <UserOutlined /> },
+  CHECKED_OUT: { color: "purple", icon: <UserOutlined /> },
+  CANCELLED: { color: "red", icon: <ExclamationCircleOutlined /> },
 };
 
 const statusOptions = Object.keys(statusConfig);
 
-// Sample appointment data
-const mockAppointment = {
-  appointment_id: 1,
-  pet: {
-    id: 101,
-    name: "Buddy",
-    owner: { full_name: "Alice Smith" },
-  },
-  veterinarian: { full_name: "Dr. Jane Doe" },
-  appointment_type: "Checkup",
-  appointment_date: "2025-05-20T10:00:00",
-  status: "Completed",
-  notes_from_client: "He's been limping a bit.",
-  notes: "Initial diagnosis completed.",
-};
-
-export default function AppointmentDetailPage({ props }) {
+export default function AppointmentDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState(mockAppointment.status);
-  const [notes, setNotes] = useState(mockAppointment.notes);
+  const [appointment, setAppointment] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSave = () => {
-    console.log("Saving", { status, notes });
-    message.success("Appointment updated successfully!");
+    console.log("Updated Appointment:", appointment);
+    updateAppointment(id, appointment)
+      .then((res) => {
+        setAppointment(res.data);
+        toast.success("Appointment updated successfully!");
+      })
+      .catch(() => {
+        toast.error("Appointment update failed!");
+      });
   };
 
+  useEffect(() => {
+    if (id) {
+      getAppointmentById(id)
+        .then((res) => {
+          setAppointment(res.data);
+          console.log("====================================");
+          console.log(res.data);
+          console.log("====================================");
+          setIsLoading(false);
+        })
+        .catch(() => {
+          toast.error("Failed to get appointment data");
+        });
+    }
+  }, [id]);
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   return (
-    <div className="min-h-screen pt-1 px-0 ">
+    <div className="min-h-screen pt-1 px-0">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 p-6 mb-3 rounded-t-lg">
         <div className="flex items-center justify-between">
           <Space size="middle">
-            <Button
-              icon={<ArrowLeftOutlined />}
-              size="middle"
-              onClick={() => {
-                navigate(-1);
-              }}
-            ></Button>
+            <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)} />
             <div className="flex items-center space-x-2">
               <MedicineBoxOutlined className="text-2xl text-blue-500" />
-              <h1 className="text-2xl logo font-semibold text-gray-800 m-0">
+              <h1 className="text-2xl font-semibold text-gray-800 m-0">
                 Appointment Details
               </h1>
             </div>
@@ -99,22 +103,15 @@ export default function AppointmentDetailPage({ props }) {
             <Button
               type="link"
               icon={<FaPaw />}
-              onClick={() => {
-                navigate("/center/vet/pet-profile/" + id);
-              }}
+              onClick={() =>
+                navigate(`/center/vet/pet-profile/${appointment?.pet?.petId}`)
+              }
             >
               See pet profile
             </Button>
-            <MedicalRecordModal />
-            <VetModal isVetMaking={true} pet_id={id} />
-            <Button
-              type="primary"
-              color="default"
-              icon={<FaRegSave />}
-              onClick={() => {
-                toast.info("Doing something !!!");
-              }}
-            >
+            <MedicalRecordModal pet={appointment?.pet} />
+            <VetModal isVetMaking={true} pet_id={id} pet={appointment?.pet} />
+            <Button type="primary" icon={<FaRegSave />} onClick={handleSave}>
               Save changes
             </Button>
           </div>
@@ -122,7 +119,7 @@ export default function AppointmentDetailPage({ props }) {
       </div>
 
       {/* Main Content */}
-      <div className="bg-white ">
+      <div className="bg-white">
         <div className="p-6">
           {/* Appointment Information */}
           <div className="flex items-center space-x-2 mb-4">
@@ -152,10 +149,10 @@ export default function AppointmentDetailPage({ props }) {
             >
               <div>
                 <div className="font-medium">
-                  {mockAppointment.pet.name} (ID: {mockAppointment.pet.id})
+                  {appointment.pet.name} (ID: {appointment.pet.petId})
                 </div>
                 <div className="text-gray-500 text-sm">
-                  Owner: {mockAppointment.pet.owner.full_name}
+                  Owner: {appointment.pet.owner.fullName}
                 </div>
               </div>
             </Descriptions.Item>
@@ -168,7 +165,7 @@ export default function AppointmentDetailPage({ props }) {
                 </Space>
               }
             >
-              {mockAppointment.veterinarian.full_name}
+              {appointment.veterinarian.fullName}
             </Descriptions.Item>
 
             <Descriptions.Item
@@ -179,7 +176,7 @@ export default function AppointmentDetailPage({ props }) {
                 </Space>
               }
             >
-              <Tag color="blue">{mockAppointment.appointment_type}</Tag>
+              <Tag color="blue">{appointment.appointmentType}</Tag>
             </Descriptions.Item>
 
             <Descriptions.Item
@@ -190,9 +187,9 @@ export default function AppointmentDetailPage({ props }) {
                 </Space>
               }
             >
-              {dayjs(mockAppointment.appointment_date).format(
-                "MMM D, YYYY h:mm A"
-              )}
+              {dayjs(appointment.appointmentDate)
+                .add(7, "h")
+                .format("MMM D, YYYY h:mm A")}
             </Descriptions.Item>
 
             <Descriptions.Item
@@ -206,21 +203,22 @@ export default function AppointmentDetailPage({ props }) {
             >
               <div className="flex flex-row justify-between items-center">
                 <Tag
-                  color={statusConfig[status].color}
-                  icon={statusConfig[status].icon}
+                  color={statusConfig[appointment.status]?.color}
+                  icon={statusConfig[appointment.status]?.icon}
                   className="ml-3"
                 >
-                  {status}
+                  {appointment.status}
                 </Tag>
                 <Select
-                  value={status}
-                  onChange={(val) => setStatus(val)}
+                  value={appointment.status}
+                  onChange={(val) =>
+                    setAppointment((prev) => ({ ...prev, status: val }))
+                  }
                   style={{ width: 200 }}
-                  size="middle"
                 >
                   {statusOptions.map((s) => (
                     <Option key={s} value={s}>
-                      <Space>{s}</Space>
+                      {s}
                     </Option>
                   ))}
                 </Select>
@@ -236,9 +234,9 @@ export default function AppointmentDetailPage({ props }) {
               }
               span={2}
             >
-              {mockAppointment.notes_from_client ? (
+              {appointment.notesFromClient ? (
                 <div className="bg-blue-50 p-3 rounded border-l-4 border-blue-200">
-                  {mockAppointment.notes_from_client}
+                  {appointment.notesFromClient}
                 </div>
               ) : (
                 <span className="text-gray-400 italic">No notes provided</span>
@@ -248,7 +246,7 @@ export default function AppointmentDetailPage({ props }) {
 
           <Divider />
 
-          {/* Internal Notes Section */}
+          {/* Internal Notes */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <EditOutlined className="text-lg text-gray-600" />
@@ -259,8 +257,13 @@ export default function AppointmentDetailPage({ props }) {
 
             <TextArea
               rows={6}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              value={appointment.notes}
+              onChange={(e) =>
+                setAppointment((prev) => ({
+                  ...prev,
+                  notes: e.target.value,
+                }))
+              }
               placeholder="Add internal notes, observations, treatment details..."
               className="resize-none"
             />

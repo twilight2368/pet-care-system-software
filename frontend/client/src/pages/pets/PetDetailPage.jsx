@@ -1,68 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../layout.css";
-import { Button } from "antd";
+import { Button, Empty } from "antd";
 import RenderPetCardWithCover from "../../components/pets/RenderPetCardWithCover";
-import Footer from "../../components/footers/Footer";
 import { useNavigate } from "react-router";
-const pets = [
-  {
-    pet_id: 1,
-    name: "Bella",
-    age: 3,
-    gender: "Female",
-    breed: "Golden Retriever",
-    color: "Golden",
-    photo_url: "",
-  },
-  {
-    pet_id: 2,
-    name: "Max",
-    age: 2,
-    gender: "Male",
-    breed: "Bulldog",
-    color: "White & Brown",
-    photo_url: "",
-  },
-  {
-    pet_id: 3,
-    name: "Max 5",
-    age: 2,
-    gender: "Male",
-    breed: "Bulldog",
-    color: "White & Brown",
-    photo_url: "",
-  },
-  {
-    pet_id: 4,
-    name: "Bella",
-    age: 3,
-    gender: "Female",
-    breed: "Golden Retriever",
-    color: "Golden",
-    photo_url: "",
-  },
-  {
-    pet_id: 5,
-    name: "Max",
-    age: 2,
-    gender: "Male",
-    breed: "Bulldog",
-    color: "White & Brown",
-    photo_url: "",
-  },
-  {
-    pet_id: 6,
-    name: "Max 5",
-    age: 2,
-    gender: "Male",
-    breed: "Bulldog",
-    color: "White & Brown",
-    photo_url: "",
-  },
-];
+import { getPetByUser } from "../../apis/api";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function PetDetailPage() {
   const navigate = useNavigate();
+  const user_id = useSelector((state) => state.user.user_id);
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    getPetByUser(user_id)
+      .then((res) => {
+        setPets(res.data);
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+      })
+      .catch(() => {
+        toast.error("Oop!");
+      });
+  }, [user_id]);
+
   return (
     <div className="p-6 w-full outlet-layout m-0 overflow-y-auto">
       <div className=" flex flex-row justify-between items-center pt-3 pb-12">
@@ -77,14 +39,19 @@ export default function PetDetailPage() {
           Add pet profile
         </Button>
       </div>
-      <div className="w-full grid grid-cols-3 gap-9">
-        {pets.map((pet) => {
-          return <RenderPetCardWithCover pet={pet} />;
-        })}
-      </div>
-      <div className="w-full">
-        <Footer />
-      </div>
+      {pets?.length ? (
+        <>
+          <div className="w-full grid grid-cols-3 gap-9">
+            {pets.map((pet) => (
+              <RenderPetCardWithCover pet={pet} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <Empty />
+        </>
+      )}
     </div>
   );
 }
