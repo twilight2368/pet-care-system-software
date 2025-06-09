@@ -1,15 +1,34 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Card, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Card, Switch, Select } from "antd";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserById } from "../../apis/api";
+import { setUserInfo } from "../../app/store/UserSlice";
+const { Option } = Select;
 
-export default function UserInfoCard({ user }) {
+export default function UserInfoCard() {
   const [form] = Form.useForm();
   const [isEditing, setIsEditing] = useState(false);
-  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const user = useSelector((state) => state.user.user_info);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue(user);
+    }
+  }, [user, form]);
 
   const handleSave = (values) => {
-    console.log("Updated user info:", values);
-    toast.success("Information updated successfully");
+    const updateUserData = { ...user, ...values };
+
+    updateUserById(user.userId, updateUserData)
+      .then((res) => {
+        dispatch(setUserInfo(res.data));
+        toast.info("Updated data");
+      })
+      .catch((err) => {
+        toast.error("Failed to update data");
+      });
+
     setIsEditing(false);
   };
 
@@ -20,24 +39,19 @@ export default function UserInfoCard({ user }) {
 
   return (
     <Card
-      title={<div className=" logo text-2xl">👤 User Information</div>}
-      className=" w-full mx-auto my-8 "
-      extra={
-        <Button variant="link" onClick={() => setPasswordModalOpen(true)}>
-          Change Password
-        </Button>
-      }
+      title={<div className="logo text-2xl">👤 User Information</div>}
+      className="w-full mx-auto my-8"
     >
       <Form
         layout="vertical"
         form={form}
-        initialValues={user}
         onFinish={handleSave}
+        initialValues={user}
         disabled={!isEditing}
       >
         <Form.Item
           label="Full Name"
-          name="full_name"
+          name="fullName"
           rules={[{ required: true, message: "Please enter full name" }]}
         >
           <Input />
@@ -59,94 +73,33 @@ export default function UserInfoCard({ user }) {
           <Input />
         </Form.Item>
 
-        <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+        <Form.Item
+          label="Phone"
+          name="phone"
+          rules={[{ required: true, message: "Please enter phone number" }]}
+        >
           <Input />
         </Form.Item>
+
         <div className="flex flex-row justify-center items-center gap-2 mt-4">
-          {!isEditing ? (
-            <></>
-          ) : (
+          {isEditing && (
             <>
               <Button type="primary" htmlType="submit">
-                Save profile
+                Save Profile
               </Button>
               <Button onClick={handleCancel}>Cancel</Button>
             </>
           )}
         </div>
       </Form>
-      <div className="flex justify-center items-center gap-2">
-        {!isEditing ? (
+
+      {!isEditing && (
+        <div className="flex justify-center items-center gap-2">
           <Button type="primary" onClick={() => setIsEditing(true)}>
-            Edit profile
+            Edit Profile
           </Button>
-        ) : (
-          <></>
-        )}
-      </div>
-      {/* Change Password Modal */}
-      <Modal
-        title={<div className=" logo text-2xl mb-4">Change password</div>}
-        open={passwordModalOpen}
-        onCancel={() => setPasswordModalOpen(false)}
-        footer={null}
-      >
-        <ChangePasswordForm onClose={() => setPasswordModalOpen(false)} />
-      </Modal>
+        </div>
+      )}
     </Card>
-  );
-}
-
-function ChangePasswordForm({ onClose }) {
-  const [form] = Form.useForm();
-
-  const handleSubmit = (values) => {
-    console.log("Changing password with:", values);
-    toast.success("Password changed successfully");
-    onClose();
-  };
-
-  return (
-    <Form layout="vertical" form={form} onFinish={handleSubmit}>
-      <Form.Item
-        label="Current Password"
-        name="current_password"
-        rules={[{ required: true, message: "Enter current password" }]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        label="New Password"
-        name="new_password"
-        rules={[{ required: true, message: "Enter new password" }]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        label="Confirm Password"
-        name="confirm_password"
-        dependencies={["new_password"]}
-        rules={[
-          { required: true, message: "Confirm your password" },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("new_password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error("Passwords do not match"));
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <div className="flex justify-end gap-2">
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="primary" htmlType="submit">
-          Change Password
-        </Button>
-      </div>
-    </Form>
   );
 }

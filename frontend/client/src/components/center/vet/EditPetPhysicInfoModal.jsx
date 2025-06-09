@@ -8,6 +8,8 @@ import {
   InputNumber,
   Switch,
 } from "antd";
+import { updatePetById } from "../../../apis/api";
+import { toast } from "react-toastify";
 
 const { Title } = Typography;
 
@@ -18,32 +20,39 @@ export default function EditPetPhysicInfoModal({ pet }) {
   useEffect(() => {
     if (isModalOpen && pet) {
       form.setFieldsValue({
-        weight_kg: pet.weight_kg,
-        height_cm: pet.height_cm,
-        blood_type: pet.blood_type,
-        spayed_neutered: pet.spayed_neutered,
+        weightKg: pet.weightKg,
+        heightCm: pet.heightCm,
+        bloodType: pet.bloodType,
+        spayedNeutered: pet.spayedNeutered,
         microchipped: pet.microchipped,
-        is_alert: pet.is_alert,
-        health_notes: pet.health_notes,
+        isAlert: pet.isAlert,
+        healthNotes: pet.healthNotes,
       });
     }
   }, [isModalOpen, pet, form]);
 
   const onFinish = (values) => {
-    console.log("Updated pet info:", values);
-    // TODO: Save/update logic here
-    setIsModalOpen(false);
+    const updatedPet = {
+      ...pet,
+      ...values,
+    };
+
+    console.log("Updated pet info:", updatedPet);
+    updatePetById(pet.petId, updatedPet)
+      .then((res) => {
+        console.log("====================================");
+        console.log(res.data);
+        console.log("====================================");
+        toast.success("Updated physic information successful");
+      })
+      .catch(() => {
+        toast.error("Updated physic information successful");
+      });
   };
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        color="blue"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Edit Pet Health Info
-      </Button>
+      <Button onClick={() => setIsModalOpen(true)}>Edit Pet Health Info</Button>
 
       <Modal
         title={<span className="logo">Edit Pet Health Information</span>}
@@ -51,17 +60,13 @@ export default function EditPetPhysicInfoModal({ pet }) {
         onCancel={() => setIsModalOpen(false)}
         onOk={() => form.submit()}
         okText="Save"
+        destroyOnClose
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          variant="filled"
-        >
+        <Form form={form} layout="vertical" onFinish={onFinish}>
           <div className="grid grid-cols-2 gap-2">
             <Form.Item
               label="Weight (kg)"
-              name="weight_kg"
+              name="weightKg"
               rules={[
                 { type: "number", min: 0, message: "Weight must be positive" },
               ]}
@@ -71,7 +76,7 @@ export default function EditPetPhysicInfoModal({ pet }) {
 
             <Form.Item
               label="Height (cm)"
-              name="height_cm"
+              name="heightCm"
               rules={[
                 { type: "number", min: 0, message: "Height must be positive" },
               ]}
@@ -80,15 +85,14 @@ export default function EditPetPhysicInfoModal({ pet }) {
             </Form.Item>
           </div>
 
-          <Form.Item label="Blood Type" name="blood_type">
+          <Form.Item label="Blood Type" name="bloodType">
             <Input placeholder="Enter blood type" />
           </Form.Item>
 
           <div className="grid grid-cols-3 gap-2">
-            {" "}
             <Form.Item
               label="Spayed / Neutered"
-              name="spayed_neutered"
+              name="spayedNeutered"
               valuePropName="checked"
             >
               <Switch />
@@ -102,14 +106,14 @@ export default function EditPetPhysicInfoModal({ pet }) {
             </Form.Item>
             <Form.Item
               label="Health Condition Alert"
-              name="is_alert"
+              name="isAlert"
               valuePropName="checked"
             >
               <Switch />
             </Form.Item>
           </div>
 
-          <Form.Item label="Health Notes" name="health_notes">
+          <Form.Item label="Health Notes" name="healthNotes">
             <Input.TextArea rows={3} placeholder="Enter any health notes" />
           </Form.Item>
         </Form>

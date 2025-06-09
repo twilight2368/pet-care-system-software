@@ -59,7 +59,7 @@ export default function VetForm({
     const payload = {
       ...values,
       pet: petObj,
-      owner: petObj.owner,
+      owner: petObj?.owner,
       veterinarian: isVetMaking ? user : null,
       appointmentType: enroll_for || values?.appointmentType,
       appointmentDate: values.appointmentDate.toISOString(),
@@ -90,7 +90,7 @@ export default function VetForm({
       }}
     >
       {/* Pet Selector */}
-      {!pet && (
+      {!pet && !isVetMaking && (
         <Form.Item
           name="pet"
           label="Select Pet"
