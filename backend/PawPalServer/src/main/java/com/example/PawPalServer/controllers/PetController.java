@@ -34,7 +34,7 @@ public class PetController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("api/pets")
+    @PostMapping("/api/pets")
     public ResponseEntity<PetDto> createPet(@RequestBody PetDto petDto){
         Pet savedPet = petService.createPet(petMapper.mapToEntity(petDto));
         return new ResponseEntity<>(petMapper.mapToDto(savedPet), HttpStatus.CREATED);
